@@ -13,8 +13,8 @@ def web_view():
     dist = f.read()
   return render_template("index.html", data=dist)
 
-@app.route("/dist", methods=["POST"])
-def main():
+@app.route("/height", methods=["POST"])
+def height_mode():
   data = request.get_json(force=True)
   distance = data['distance']
   name = data['device']
@@ -32,6 +32,10 @@ def main():
   elif name == "side":
     print("Side:", result_dist)
   return jsonify(dist_mode)
+
+### 寺内くんお願い
+
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
