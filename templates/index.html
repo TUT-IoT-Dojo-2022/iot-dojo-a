@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="10; URL=">
+<title>TEST PAGE</title>
+</head>
+<body>
+<p>Height of body : {{data}} cm</p>
+<script type="text/javascript">
+    var test = {{ data|tojson }};
+    console.log(test);
+  </script>
+</body>
+</html>
