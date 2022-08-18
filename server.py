@@ -35,3 +35,64 @@ def main():
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
+
+
+@app.route("/")
+def distanceSave():
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def clothesDiffSave():
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def inseam():
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def shouldwidFront ():
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def shouldwidSide ():
+  res = 0
+  
+  return jsonify(res)
+  
+@app.route("/")
+def westFront ():
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def westSide ():
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def clothDiffCorrect():
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def measureCalculat():
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def outValue():
+  res = 0
+  
+  return jsonify(res)
