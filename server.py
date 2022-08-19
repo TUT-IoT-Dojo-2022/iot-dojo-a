@@ -57,7 +57,7 @@ def inseam_mode():
   return jsonify(result_dist)
 
 #ウエストの値(左側)を取得し，保存
-@app.route("/waistl")
+@app.route("/wleft")
 def waist_left():
   data = request.get_json(force=True)
   distance = data['distance']
@@ -73,7 +73,7 @@ def waist_left():
   return jsonify(dist_mode)
 
 #ウエストの値(右側)を取得し，保存
-@app.route("/waistr")
+@app.route("/wright")
 def waist_right():
   data = request.get_json(force=True)
   distance = data['distance']
