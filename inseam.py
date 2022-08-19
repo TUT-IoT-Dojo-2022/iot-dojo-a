@@ -11,4 +11,4 @@ for d in distance:
     dist_cm = int(round(d) / 10.0) 
     dist_db.append(dist_cm)
 dist_mode = statistics.mode(dist_db)
-print("inseam: " + str(dist_mode) + "cm(" ")")
+print("inseam: " + str(dist_mode) + "cm")
