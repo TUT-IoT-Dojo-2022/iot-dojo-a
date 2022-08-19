@@ -73,7 +73,7 @@ def waist_circle():
   print("f{:.3F}".format(L))
 
 #ウエストの値(左側)を取得し，保存
-@app.route("/waist_left")
+@app.route("/waistl")
 def waist_left():
   data = request.get_json(force=True)
   distance = data['distance']
@@ -89,7 +89,7 @@ def waist_left():
   return jsonify(dist_mode)
 
 #ウエストの値(右側)を取得し，保存
-@app.route("/waist_right")
+@app.route("/waistr")
 def waist_right():
   data = request.get_json(force=True)
   distance = data['distance']
