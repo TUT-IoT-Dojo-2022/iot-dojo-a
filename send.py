@@ -1,6 +1,6 @@
 import time
-import urequests
 import ujson
+import urequests
 from machine import I2C,Pin
 from vl53l1x import VL53L1X
 
@@ -12,38 +12,25 @@ i2c = I2C(scl=Pin(I2C_SCL_PIN), sda=Pin(I2C_SDA_PIN))
 distance = VL53L1X(i2c)
 
 def send():
-    url = 'http://192.168.13.15:5000/dist'
+    url = 'http://192.168.2.109:5000/height'
     dist_data = []
     count = 0
-    while count < 200:
+    while count < 100:
         try:
             dist = distance.read()
-            print("range: mm ", distance.read())
+            #print("range: mm ", distance.read())
             dist_data.append(dist)
-            time.sleep_ms(10)
             count += 1
         except:
             count += 0
 
-    device = ["legs", "head", "side"]
-    
-    sendData = {
-        "device" : device[1],
-        "distance" : dist_data
-    }
-    
-    header = {
-        'Content-Type': 'application/json'
-    }
-    
-    res = urequests.post(
-        url,
-        data=ujson.dumps(sendData).encode("utf-8"),
-        headers=header
-    )
-    
+    sendData = {"device" : 1, "distance" : dist_data}
+    header = {'Content-Type': 'application/json'}
+    print("Measurements complete! Please step aside...")
+    time.sleep(10)
+    res = urequests.post(url, data=ujson.dumps(sendData).encode("utf-8"),headers=header)
     print("サーバからのステータスコード：", res.status_code)
     res.close()
-    
 
-send()
+if __name__ == '__main__':
+    send()

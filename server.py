@@ -4,39 +4,52 @@ import statistics
 import json
 import requests
 
+room_height = 193
+
 app = Flask(__name__)
 
 @app.route("/")
 def web_view():
   dist = ""
-  with open("./head.txt") as f:
-    dist = f.read()
+  try:
+    with open("./head.txt") as f:
+      dist = f.read()
+  except:
+    with open("./head.txt", mode="w") as f:
+      dist = str(0)
+      f.write(dist)
   return render_template("index.html", data=dist)
 
+<<<<<<< HEAD
 @app.route("/dist", methods=["POST"])
 def main(): #身長の計算
+=======
+#身長の計算
+@app.route("/height", methods=["POST"])
+def height_mode():
+>>>>>>> c846522dbff538acb6ed915249e9bc421bb89340
   data = request.get_json(force=True)
   distance = data['distance']
-  name = data['device']
   dist_db = []
   for d in distance:
     dist_cm = int(round(d) / 10.0) 
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
-  room_height = 204
-  if name == "head":
-    result_dist = room_height - dist_mode
-    print("Height: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
-    with open("./head.txt", mode="w") as f:
-      f.write(str(result_dist))
-  elif name == "side":
-    print("Side:", result_dist)
+  result_dist = room_height - dist_mode
+  print("Height: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
+  with open("./head.txt", mode="w") as f:
+    f.write(str(result_dist))
+
   return jsonify(dist_mode)
 
+<<<<<<< HEAD
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
 
 
+=======
+### 寺内くんお願い
+>>>>>>> c846522dbff538acb6ed915249e9bc421bb89340
 @app.route("/")
 def distSave():#距離センサーの値を受け取ってファイル保存
   res = 0
@@ -96,3 +109,6 @@ def outValue():#外れ値除外のアルゴリズム
   res = 0
   
   return jsonify(res)
+
+if __name__ == '__main__':
+  app.run(host="0.0.0.0", port=5000, debug=True)
