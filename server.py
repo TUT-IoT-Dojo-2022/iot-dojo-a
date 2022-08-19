@@ -34,13 +34,6 @@ def height_mode():
   return jsonify(dist_mode)
 
 ### 寺内くんお願い
-
-
-
-if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=5000, debug=True)
-
-
 @app.route("/")
 def distanceSave():
   res = 0
@@ -100,3 +93,6 @@ def outValue():
   res = 0
   
   return jsonify(res)
+
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", port=5000, debug=True)
