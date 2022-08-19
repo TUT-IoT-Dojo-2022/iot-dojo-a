@@ -1,4 +1,4 @@
-SSID_NAME = "elecom2g-d44659"
+SSID_NAME = "iot-dojo"
 SSID_PASS = "6a5jxurvjxha" 
 
 import utime

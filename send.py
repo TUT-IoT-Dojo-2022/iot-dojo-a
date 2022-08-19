@@ -15,22 +15,22 @@ def send():
     url = 'http://192.168.2.109:5000/height'
     dist_data = []
     count = 0
-    while count < 200:
+    while count < 100:
         try:
             dist = distance.read()
-            print("range: mm ", distance.read())
+            #print("range: mm ", distance.read())
             dist_data.append(dist)
-            time.sleep(0.1)
             count += 1
         except:
             count += 0
 
-    device = ["legs", "head", "side"]
-    sendData = {"device" : device[1], "distance" : dist_data}
+    sendData = {"device" : 1, "distance" : dist_data}
     header = {'Content-Type': 'application/json'}
+    print("Measurements complete! Please step aside...")
+    time.sleep(10)
     res = urequests.post(url, data=ujson.dumps(sendData).encode("utf-8"),headers=header)
     print("サーバからのステータスコード：", res.status_code)
     res.close()
-    
 
-send()
+if __name__ == '__main__':
+    send()
