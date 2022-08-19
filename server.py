@@ -6,6 +6,8 @@ import json
 import requests
 
 room_height = 175
+room_yoko = 71 #測定する場所の横幅
+room_tate = 71 #測定する場所の奥行
 inseam_fix = 50
 
 app = Flask(__name__)
@@ -56,6 +58,26 @@ def inseam_mode():
 
   return jsonify(result_dist)
 
+#ウエストの値(円周)を計算し，返す
+@app.route("/waist", methods=["POST"])
+def waist_circle():
+  try:
+    with open("./waist_left.txt") as f:
+      L1 = int(f.read())
+    with open("./waist_right.txt") as f:
+      L2 = int(f.read())
+    #データの処理（円周の代表値を出す）
+    L3 = 21 #センサーの背中
+    L4 = 34 #センサーのお腹側
+    daen_yoko = (room_yoko - (L1 + L2)) / 2
+    daen_tate_1 = (room_tate - (L3 + L3)) / 2
+    daen_tate_2 = (room_tate - (L4 + L4)) / 2
+    L = 4 * daen_yoko * ellipe(e)
+    print("f{:.3F}".format(L))
+  except:
+    L = None
+  return L
+
 #ウエストの値(左側)を取得し，保存
 @app.route("/wleft", methods=["POST"])
 def waist_left():
@@ -88,31 +110,57 @@ def waist_right():
 
   return jsonify(dist_mode)
 
-def waist_circle():
-  #データの処理（円周の代表値を出す）
-  room_yoko = 71 #測定する場所の横幅
-  room_tate = 71 #測定する場所の奥行
-  L1 = 23 #センサーの左側
-  L2 = 26 #センサーの右側
-  L3 = 21 #センサーの背中
-  L4 = 34 #センサーのお腹側
-  daen_yoko = (room_yoko - (L1 + L2)) / 2
-  daen_tate_1 = (room_tate - (L3 + L3)) / 2
-  daen_tate_2 = (room_tate - (L4 + L4)) / 2
-  L = 4 * daen_yoko * ellipe(e)
-  print("f{:.3F}".format(L))
+#肩幅の値(円周)を計算し，返す
+@app.route("/shoulder", methods=["POST"])
+def shoulder_circle():
+  try:
+    with open("./shoulder_left.txt") as f:
+      L1 = int(f.read())
+    with open("./shoulder_right.txt") as f:
+      L2 = int(f.read())
+    #データの処理（円周の代表値を出す）
+    L3 = 21 #センサーの背中
+    L4 = 34 #センサーのお腹側
+    daen_yoko = (room_yoko - (L1 + L2)) / 2
+    daen_tate_1 = (room_tate - (L3 + L3)) / 2
+    daen_tate_2 = (room_tate - (L4 + L4)) / 2
+    L = 4 * daen_yoko * ellipe(e)
+    print("f{:.3F}".format(L))
+  except:
+    L = None
+  return L
 
-# @app.route("/")
-# def shouldwidFront ():#肩幅の計算(正面)
-#   res = 0
-  
-#   return jsonify(res)
+#ウエストの値(左側)を取得し，保存
+@app.route("/sleft", methods=["POST"])
+def waist_left():
+  data = request.get_json(force=True)
+  distance = data['distance']
+  dist_db = []
+  for d in distance:
+    dist_cm = int(round(d) / 10.0) 
+    dist_db.append(dist_cm)
+  dist_mode = statistics.mode(dist_db)
+  print("Shoulder Left: " + str(dist_mode) + "cm")
+  with open("./shoulder_left.txt", mode="w") as f:
+    f.write(str(dist_mode))
 
-# @app.route("/")
-# def shouldwidSide ():#肩幅の計算(側面)
-#   res = 0
-  
-#   return jsonify(res)
+  return jsonify(dist_mode)
+
+#肩幅の値(右側)を取得し，保存
+@app.route("/sright", methods=["POST"])
+def waist_right():
+  data = request.get_json(force=True)
+  distance = data['distance']
+  dist_db = []
+  for d in distance:
+    dist_cm = int(round(d) / 10.0) 
+    dist_db.append(dist_cm)
+  dist_mode = statistics.mode(dist_db)
+  print("Shoulder Right: " + str(dist_mode) + "cm")
+  with open("./shoulder_right.txt", mode="w") as f:
+    f.write(str(dist_mode))
+
+  return jsonify(dist_mode)
 
 # @app.route("/")
 # def clothesDiffSave():#着衣と素肌の差を測ってファイル保存
@@ -126,17 +174,9 @@ def waist_circle():
   
 #   return jsonify(res)
 
-# @app.route("/")
-# def measureCalculat():#誤差の許容範囲の計算
-#   res = 0
-  
-#   return jsonify(res)
-
-# @app.route("/")
-# def outValue():#外れ値除外のアルゴリズム
-#   res = 0
-  
-#   return jsonify(res)
+def outValue():#外れ値除外のアルゴリズム
+  res = 0
+  return jsonify(res)
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=5000, debug=True)
