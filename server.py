@@ -21,7 +21,7 @@ def web_view():
       f.write(dist)
   return render_template("index.html", data=dist)
 
-#身長の計算
+#距離センサーの値を取得し，身長の計算（head.txtで保存)
 @app.route("/head", methods=["POST"])
 def height_mode():
   data = request.get_json(force=True)
@@ -38,7 +38,7 @@ def height_mode():
 
   return jsonify(result_dist)
 
-#股下の計算
+#距離センサーの値を取得し，股下の計算（legs.txtで保存)
 @app.route("/legs", methods=["POST"])
 def inseam_mode():
   data = request.get_json(force=True)
@@ -56,19 +56,7 @@ def inseam_mode():
   return jsonify(result_dist)
 
 @app.route("/")
-def distSave():#距離センサーの値を受け取ってファイル保存
-  res = 0
-  
-  return jsonify(res)
-
-@app.route("/")
 def clothesDiffSave():#着衣と素肌の差を測ってファイル保存
-  res = 0
-  
-  return jsonify(res)
-
-@app.route("/")
-def inseam():#股下の計算
   res = 0
   
   return jsonify(res)
