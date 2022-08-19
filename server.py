@@ -4,7 +4,8 @@ import statistics
 import json
 import requests
 
-room_height = 193
+room_height = 175
+inseam_fix = 50
 
 app = Flask(__name__)
 
@@ -35,7 +36,7 @@ def height_mode():
   with open("./head.txt", mode="w") as f:
     f.write(str(result_dist))
 
-  return jsonify(dist_mode)
+  return jsonify(result_dist)
 
 #股下の計算
 @app.route("/legs", methods=["POST"])
@@ -47,11 +48,12 @@ def inseam_mode():
     dist_cm = int(round(d) / 10.0) 
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
-  print("Inseam: " + str(dist_mode) + "cm(" + str(dist_mode) + ")")
+  result_dist = dist_mode + inseam_fix
+  print("Inseam: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
   with open("./legs.txt", mode="w") as f:
-    f.write(str(dist_mode))
+    f.write(str(result_dist))
 
-  return jsonify(dist_mode)
+  return jsonify(result_dist)
 
 @app.route("/")
 def distSave():#距離センサーの値を受け取ってファイル保存
