@@ -27,20 +27,11 @@ def send():
 
     device = ["legs", "head", "side"]
     
-    sendData = {
-        "device" : device[1],
-        "distance" : dist_data
-    }
+    sendData = {"device" : device[1], "distance" : dist_data}
     
-    header = {
-        'Content-Type': 'application/json'
-    }
+    header = {'Content-Type': 'application/json'}
     
-    res = urequests.post(
-        url,
-        data=ujson.dumps(sendData).encode("utf-8"),
-        headers=header
-    )
+    res = urequests.post(url, data=ujson.dumps(sendData).encode("utf-8"),headers=header)
     
     print("サーバからのステータスコード：", res.status_code)
     res.close()
