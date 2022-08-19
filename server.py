@@ -132,7 +132,7 @@ def shoulder_circle():
 
 #ウエストの値(左側)を取得し，保存
 @app.route("/sleft", methods=["POST"])
-def waist_left():
+def shoulder_left():
   data = request.get_json(force=True)
   distance = data['distance']
   dist_db = []
@@ -148,7 +148,7 @@ def waist_left():
 
 #肩幅の値(右側)を取得し，保存
 @app.route("/sright", methods=["POST"])
-def waist_right():
+def shoulder_right():
   data = request.get_json(force=True)
   distance = data['distance']
   dist_db = []
