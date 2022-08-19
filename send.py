@@ -1,6 +1,6 @@
 import time
-import urequests
 import ujson
+import urequests
 from machine import I2C,Pin
 from vl53l1x import VL53L1X
 
@@ -20,19 +20,15 @@ def send():
             dist = distance.read()
             print("range: mm ", distance.read())
             dist_data.append(dist)
-            time.sleep_ms(10)
+            time.sleep(0.1)
             count += 1
         except:
             count += 0
 
     device = ["legs", "head", "side"]
-    
     sendData = {"device" : device[1], "distance" : dist_data}
-    
     header = {'Content-Type': 'application/json'}
-    
     res = urequests.post(url, data=ujson.dumps(sendData).encode("utf-8"),headers=header)
-    
     print("サーバからのステータスコード：", res.status_code)
     res.close()
     
