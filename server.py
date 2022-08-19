@@ -39,7 +39,7 @@ def height_mode():
 
 #股下の計算
 @app.route("/legs", methods=["POST"])
-def height_mode():
+def inseam_mode():
   data = request.get_json(force=True)
   distance = data['distance']
   dist_db = []
