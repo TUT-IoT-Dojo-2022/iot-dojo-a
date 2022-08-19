@@ -9,8 +9,13 @@ app = Flask(__name__)
 @app.route("/")
 def web_view():
   dist = ""
-  with open("./head.txt") as f:
-    dist = f.read()
+  try:
+    with open("./head.txt") as f:
+      dist = f.read()
+  except:
+    with open("./head.txt", mode="w") as f:
+      dist = str(0)
+      f.write(dist)
   return render_template("index.html", data=dist)
 
 @app.route("/height", methods=["POST"])
