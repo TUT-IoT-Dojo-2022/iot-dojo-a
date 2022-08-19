@@ -53,63 +53,62 @@ def height_mode():
 
   return jsonify(dist_mode)
 
-### 寺内くんお願い
 @app.route("/")
-def distanceSave():
+def distSave():#距離センサーの値を受け取ってファイル保存
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def clothesDiffSave():
+def clothesDiffSave():#着衣と素肌の差を測ってファイル保存
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def inseam():
+def inseam():#股下の計算
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def shouldwidFront ():
+def shouldwidFront ():#肩幅の計算(正面)
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def shouldwidSide ():
+def shouldwidSide ():#肩幅の計算(側面)
   res = 0
   
   return jsonify(res)
   
 @app.route("/")
-def westFront ():
-  res = 0
-  
-  return jsonify(res)
-
-@app.route("/")
-def westSide ():
+def westFront ():#ウエストの計算(正面)
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def clothDiffCorrect():
+def westSide ():#ウエストの計算(側面)
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def measureCalculat():
+def clothDiffCorrect():#着衣と素肌の誤差を補正
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def outValue():
+def measureCalculat():#誤差の許容範囲の計算
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def outValue():#外れ値除外のアルゴリズム
   res = 0
   
   return jsonify(res)
