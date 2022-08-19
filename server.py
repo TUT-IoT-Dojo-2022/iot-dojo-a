@@ -21,7 +21,7 @@ def web_view():
   return render_template("index.html", data=dist)
 
 #身長の計算
-@app.route("/height", methods=["POST"])
+@app.route("/head", methods=["POST"])
 def height_mode():
   data = request.get_json(force=True)
   distance = data['distance']
@@ -34,6 +34,22 @@ def height_mode():
   print("Height: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
   with open("./head.txt", mode="w") as f:
     f.write(str(result_dist))
+
+  return jsonify(dist_mode)
+
+#股下の計算
+@app.route("/legs", methods=["POST"])
+def height_mode():
+  data = request.get_json(force=True)
+  distance = data['distance']
+  dist_db = []
+  for d in distance:
+    dist_cm = int(round(d) / 10.0) 
+    dist_db.append(dist_cm)
+  dist_mode = statistics.mode(dist_db)
+  print("Inseam: " + str(dist_mode) + "cm(" + str(dist_mode) + ")")
+  with open("./legs.txt", mode="w") as f:
+    f.write(str(dist_mode))
 
   return jsonify(dist_mode)
 
