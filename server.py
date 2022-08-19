@@ -13,8 +13,8 @@ def web_view():
     dist = f.read()
   return render_template("index.html", data=dist)
 
-@app.route("/height", methods=["POST"])
-def height_mode():
+@app.route("/dist", methods=["POST"])
+def main(): #身長の計算
   data = request.get_json(force=True)
   distance = data['distance']
   name = data['device']
@@ -33,70 +33,66 @@ def height_mode():
     print("Side:", result_dist)
   return jsonify(dist_mode)
 
-### 寺内くんお願い
-
-
-
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug=True)
 
 
 @app.route("/")
-def distanceSave():
+def distanceSave():#距離センサーの値を受け取ってファイル保存
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def clothesDiffSave():
+def clothesDiffSave():#着衣と素肌の差を測ってファイル保存
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def inseam():
+def inseam():#股下の計算
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def shouldwidFront ():
+def shouldwidFront ():#肩幅の計算(正面)
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def shouldwidSide ():
+def shouldwidSide ():#肩幅の計算(側面)
   res = 0
   
   return jsonify(res)
   
 @app.route("/")
-def westFront ():
-  res = 0
-  
-  return jsonify(res)
-
-@app.route("/")
-def westSide ():
+def westFront ():#ウエストの計算(正面)
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def clothDiffCorrect():
+def westSide ():#ウエストの計算(側面)
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def measureCalculat():
+def clothDiffCorrect():#着衣と素肌の誤差を補正
   res = 0
   
   return jsonify(res)
 
 @app.route("/")
-def outValue():
+def measureCalculat():#誤差の許容範囲の計算
+  res = 0
+  
+  return jsonify(res)
+
+@app.route("/")
+def outValue():#外れ値除外のアルゴリズム
   res = 0
   
   return jsonify(res)
