@@ -162,11 +162,23 @@ def shoulder_right():
 
   return jsonify(dist_mode)
 
-# @app.route("/")
-# def clothesDiffSave():#着衣と素肌の差を測ってファイル保存
-#   res = 0
-  
-#   return jsonify(res)
+#着衣と素肌の差を測ってファイル保存（上着なし）
+@app.route("/clothes1", methods=["POST"])
+def clothesDiffSave1():
+  data = request.get_json(force=True)
+  distance = data['distance']
+  with open("./clothes1.txt", mode="a") as f:
+    f.write(str(distance))
+  return jsonify(distance)
+
+#着衣と素肌の差を測ってファイル保存（上着あり）
+@app.route("/clothes2", methods=["POST"])
+def clothesDiffSave2():
+  data = request.get_json(force=True)
+  distance = data['distance']
+  with open("./clothes2.txt", mode="a") as f:
+    f.write(str(distance))
+  return jsonify(distance)
 
 # @app.route("/")
 # def clothDiffCorrect():#着衣と素肌の誤差を補正
