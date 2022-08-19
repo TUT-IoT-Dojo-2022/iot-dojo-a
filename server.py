@@ -1,5 +1,4 @@
 from flask import Flask, request, render_template, jsonify
-import numpy as np
 from scipy.special import ellipe
 import time
 import statistics
@@ -57,21 +56,6 @@ def inseam_mode():
 
   return jsonify(result_dist)
 
-@app.route("/waist_circle")
-def waist_circle():
-  #データの処理（円周の代表値を出す）
-  room_yoko = 71 #測定する場所の横幅
-  room_tate = 71 #測定する場所の奥行
-  L1 = 23 #センサーの左側
-  L2 = 26 #センサーの右側
-  L3 = 21 #センサーの背中
-  L4 = 34 #センサーのお腹側
-  daen_yoko = (room_yoko - (L1 + L2)) / 2
-  daen_tate_1 = (room_tate - (L3 + L3)) / 2
-  daen_tate_2 = (room_tate - (L4 + L4)) / 2
-  L = 4 * daen_yoko * ellipe(e)
-  print("f{:.3F}".format(L))
-
 #ウエストの値(左側)を取得し，保存
 @app.route("/waistl")
 def waist_left():
@@ -104,41 +88,55 @@ def waist_right():
 
   return jsonify(dist_mode)
 
-@app.route("/")
-def shouldwidFront ():#肩幅の計算(正面)
-  res = 0
-  
-  return jsonify(res)
+def waist_circle():
+  #データの処理（円周の代表値を出す）
+  room_yoko = 71 #測定する場所の横幅
+  room_tate = 71 #測定する場所の奥行
+  L1 = 23 #センサーの左側
+  L2 = 26 #センサーの右側
+  L3 = 21 #センサーの背中
+  L4 = 34 #センサーのお腹側
+  daen_yoko = (room_yoko - (L1 + L2)) / 2
+  daen_tate_1 = (room_tate - (L3 + L3)) / 2
+  daen_tate_2 = (room_tate - (L4 + L4)) / 2
+  L = 4 * daen_yoko * ellipe(e)
+  print("f{:.3F}".format(L))
 
-@app.route("/")
-def shouldwidSide ():#肩幅の計算(側面)
-  res = 0
+# @app.route("/")
+# def shouldwidFront ():#肩幅の計算(正面)
+#   res = 0
   
-  return jsonify(res)
+#   return jsonify(res)
 
-@app.route("/")
-def clothesDiffSave():#着衣と素肌の差を測ってファイル保存
-  res = 0
+# @app.route("/")
+# def shouldwidSide ():#肩幅の計算(側面)
+#   res = 0
   
-  return jsonify(res)
+#   return jsonify(res)
 
-@app.route("/")
-def clothDiffCorrect():#着衣と素肌の誤差を補正
-  res = 0
+# @app.route("/")
+# def clothesDiffSave():#着衣と素肌の差を測ってファイル保存
+#   res = 0
   
-  return jsonify(res)
+#   return jsonify(res)
 
-@app.route("/")
-def measureCalculat():#誤差の許容範囲の計算
-  res = 0
+# @app.route("/")
+# def clothDiffCorrect():#着衣と素肌の誤差を補正
+#   res = 0
   
-  return jsonify(res)
+#   return jsonify(res)
 
-@app.route("/")
-def outValue():#外れ値除外のアルゴリズム
-  res = 0
+# @app.route("/")
+# def measureCalculat():#誤差の許容範囲の計算
+#   res = 0
   
-  return jsonify(res)
+#   return jsonify(res)
+
+# @app.route("/")
+# def outValue():#外れ値除外のアルゴリズム
+#   res = 0
+  
+#   return jsonify(res)
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=5000, debug=True)
