@@ -16,10 +16,10 @@ app = Flask(__name__)
 def web_view():
   dist = ""
   try:
-    with open("./head.txt") as f:
+    with open("./files/head.txt") as f:
       dist = f.read()
   except:
-    with open("./head.txt", mode="w") as f:
+    with open("./files/head.txt", mode="w") as f:
       dist = str(0)
       f.write(dist)
   return render_template("index.html", data=dist)
@@ -36,7 +36,7 @@ def height_mode():
   dist_mode = statistics.mode(dist_db)
   result_dist = room_height - dist_mode
   print("Height: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
-  with open("./head.txt", mode="w") as f:
+  with open("./files/head.txt", mode="w") as f:
     f.write(str(result_dist))
 
   return jsonify(result_dist)
@@ -53,7 +53,7 @@ def inseam_mode():
   dist_mode = statistics.mode(dist_db)
   result_dist = dist_mode + inseam_fix
   print("Inseam: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
-  with open("./legs.txt", mode="w") as f:
+  with open("./files/legs.txt", mode="w") as f:
     f.write(str(result_dist))
 
   return jsonify(result_dist)
@@ -62,9 +62,9 @@ def inseam_mode():
 @app.route("/waist", methods=["POST"])
 def waist_circle():
   try:
-    with open("./waist_left.txt") as f:
+    with open("./files/waist_left.txt") as f:
       L1 = int(f.read())
-    with open("./waist_right.txt") as f:
+    with open("./files/waist_right.txt") as f:
       L2 = int(f.read())
     #データの処理（円周の代表値を出す）
     L3 = 21 #センサーの背中
@@ -89,7 +89,7 @@ def waist_left():
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
   print("Waist Left: " + str(dist_mode) + "cm")
-  with open("./waist_left.txt", mode="w") as f:
+  with open("./files/waist_left.txt", mode="w") as f:
     f.write(str(dist_mode))
 
   return jsonify(dist_mode)
@@ -105,7 +105,7 @@ def waist_right():
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
   print("Waist Right: " + str(dist_mode) + "cm")
-  with open("./waist_right.txt", mode="w") as f:
+  with open("./files/waist_right.txt", mode="w") as f:
     f.write(str(dist_mode))
 
   return jsonify(dist_mode)
@@ -114,9 +114,9 @@ def waist_right():
 @app.route("/shoulder", methods=["POST"])
 def shoulder_circle():
   try:
-    with open("./shoulder_left.txt") as f:
+    with open("./files/shoulder_left.txt") as f:
       L1 = int(f.read())
-    with open("./shoulder_right.txt") as f:
+    with open("./files/shoulder_right.txt") as f:
       L2 = int(f.read())
     #データの処理（円周の代表値を出す）
     L3 = 21 #センサーの背中
@@ -141,7 +141,7 @@ def shoulder_left():
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
   print("Shoulder Left: " + str(dist_mode) + "cm")
-  with open("./shoulder_left.txt", mode="w") as f:
+  with open("./files/shoulder_left.txt", mode="w") as f:
     f.write(str(dist_mode))
 
   return jsonify(dist_mode)
@@ -157,7 +157,7 @@ def shoulder_right():
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
   print("Shoulder Right: " + str(dist_mode) + "cm")
-  with open("./shoulder_right.txt", mode="w") as f:
+  with open("./files/shoulder_right.txt", mode="w") as f:
     f.write(str(dist_mode))
 
   return jsonify(dist_mode)
@@ -167,7 +167,7 @@ def shoulder_right():
 def clothesDiffSave1():
   data = request.get_json(force=True)
   distance = data['distance']
-  with open("./clothes1.txt", mode="a") as f:
+  with open("./files/clothes1.txt", mode="a") as f:
     f.write(str(distance))
   return jsonify(distance)
 
@@ -176,7 +176,7 @@ def clothesDiffSave1():
 def clothesDiffSave2():
   data = request.get_json(force=True)
   distance = data['distance']
-  with open("./clothes2.txt", mode="a") as f:
+  with open("./files/clothes2.txt", mode="a") as f:
     f.write(str(distance))
   return jsonify(distance)
 
