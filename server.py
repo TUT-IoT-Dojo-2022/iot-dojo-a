@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
 
 @app.route("/")
-def distanceSave():#距離センサーの値を受け取ってファイル保存
+def distSave():#距離センサーの値を受け取ってファイル保存
   res = 0
   
   return jsonify(res)
