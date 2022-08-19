@@ -27,7 +27,7 @@ def send():
     sendData = {"device" : 2, "distance" : dist_data}
     header = {'Content-Type': 'application/json'}
     print("Measurements complete! Please step aside...")
-    time.sleep(5)
+    time.sleep(1)
     res = urequests.post(url, data=ujson.dumps(sendData).encode("utf-8"),headers=header)
     print("サーバからのステータスコード：", res.status_code)
     res.close()
