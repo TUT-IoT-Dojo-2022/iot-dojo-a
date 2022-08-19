@@ -4,6 +4,8 @@ import statistics
 import json
 import requests
 
+room_height = 193
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -18,24 +20,21 @@ def web_view():
       f.write(dist)
   return render_template("index.html", data=dist)
 
+#身長の計算
 @app.route("/height", methods=["POST"])
 def height_mode():
   data = request.get_json(force=True)
   distance = data['distance']
-  name = data['device']
   dist_db = []
   for d in distance:
     dist_cm = int(round(d) / 10.0) 
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
-  room_height = 204
-  if name == "head":
-    result_dist = room_height - dist_mode
-    print("Height: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
-    with open("./head.txt", mode="w") as f:
-      f.write(str(result_dist))
-  elif name == "side":
-    print("Side:", result_dist)
+  result_dist = room_height - dist_mode
+  print("Height: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
+  with open("./head.txt", mode="w") as f:
+    f.write(str(result_dist))
+
   return jsonify(dist_mode)
 
 ### 寺内くんお願い
