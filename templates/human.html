@@ -69,12 +69,12 @@
         const $waist = document.querySelector("#waist-js");
         const $mata = document.querySelector("#mata-js");
 
-        const randInt = () => { return Math.round(Math.random() * 10 + 1); }
+        let list_data = {{ data | tojson }}
 
-        $height.textContent = 181 + "cm";
-        $kata.textContent = 42 + "cm";
-        $waist.textContent = 75 + "cm";
-        $mata.textContent = 72 + "cm";
+        $height.textContent = list_data[0] + "cm";
+        $kata.textContent = list_data[2] + "cm";
+        $waist.textContent = list_data[3] + "cm";
+        $mata.textContent = list_data[1] + "cm";
     </script>
 
 </body>

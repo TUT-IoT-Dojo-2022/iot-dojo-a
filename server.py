@@ -17,17 +17,29 @@ app = Flask(__name__)
 
 @app.route("/")
 def web_view():
-  dist = ""
   try:
-    with open("./files/head.txt") as f:
-      dist = f.read()
+    with open("./files/height.txt") as f:
+      height = int(f.read())
   except:
-    with open("./files/head.txt", mode="w") as f:
-      dist = str(0)
-      f.write(dist)
-  return render_template("index.html", data=dist)
+    height = 0
+  try:
+    with open("./files/legs.txt") as f:
+      legs = int(f.read())
+  except:
+    legs = 0
+  try:
+    with open("./files/shoulder.txt") as f:
+      shoulder = int(f.read())
+  except:
+    shoulder = 0
+  try:
+    with open("./files/waist.txt") as f:
+      waist = int(f.read())
+  except:
+    waist = 0
+  return render_template("index.html", data=[height,legs,shoulder,waist])
 
-#距離センサーの値を取得し，身長の計算（head.txtで保存)
+#距離センサーの値を取得し，身長の計算（height.txtで保存)
 @app.route("/head", methods=["POST"])
 def height_mode():
   data = request.get_json(force=True)
@@ -39,7 +51,7 @@ def height_mode():
   dist_mode = statistics.mode(dist_db)
   result_dist = room_height - dist_mode
   print("Height: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
-  with open("./files/head.txt", mode="w") as f:
+  with open("./files/height.txt", mode="w") as f:
     f.write(str(result_dist))
 
   return jsonify(result_dist)
@@ -61,7 +73,8 @@ def inseam_mode():
 
   return jsonify(result_dist)
 
-def clothDiffCorrect(L):#着衣と素肌の誤差を補正
+#着衣と素肌の誤差を補正
+def clothDiffCorrect(L):
   filename = "./files/clh"
   if CLOTHES_TYPE == 0:
     filename += "1_"
@@ -104,9 +117,11 @@ def waist_circle():
     daen_tate_2 = (room_tate - (L4 + L4)) / 2
     L = 4 * daen_yoko * ellipe(e)
     print("f{:.3F}".format(L))
+    with open("./files/waist.txt", mode="w") as f:
+      f.write(str(L))
   except:
     L = None
-  return L
+  return jsonify(L)
 
 #ウエストの値(左側)を取得し，保存
 @app.route("/wleft", methods=["POST"])
@@ -156,6 +171,8 @@ def shoulder_circle():
     daen_tate_2 = (room_tate - (L4 + L4)) / 2
     L = 4 * daen_yoko * ellipe(e)
     print("f{:.3F}".format(L))
+    with open("./files/shoulder.txt", mode="w") as f:
+      f.write(str(L))
   except:
     L = None
   return L
