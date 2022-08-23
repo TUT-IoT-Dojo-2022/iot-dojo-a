@@ -1,3 +1,4 @@
+from math import dist
 from flask import Flask, request, render_template, jsonify
 from scipy.special import ellipe
 import time
@@ -9,6 +10,8 @@ room_height = 175
 room_yoko = 71 #測定する場所の横幅
 room_tate = 71 #測定する場所の奥行
 inseam_fix = 50
+SIZE = 2 #ぴちぴち:1 / ちょうどいい:2 / オーバー：3
+CLOTHES_TYPE = 0 #上着なし:0 / 上着あり：1
 
 app = Flask(__name__)
 
@@ -58,14 +61,41 @@ def inseam_mode():
 
   return jsonify(result_dist)
 
+def clothDiffCorrect(L):#着衣と素肌の誤差を補正
+  filename = "./files/clh"
+  if CLOTHES_TYPE == 0:
+    filename += "1_"
+  else:
+    filename += "2_"
+  if SIZE == 1:
+    filename += "pittari.txt"
+  elif SIZE == 2:
+    filename += "hodoyoi.txt"
+  else:
+    filename += "over.txt"
+  size_data = []
+  with open(filename) as f:
+    list_line = f.readlines()
+    for l in list_line:
+      if l[:-1] == "\n":
+        l = int(l[:-1])
+      else:
+        l = int(l)
+      size_data.append(l)
+  size_avg = sum(size_data) / len(size_data)
+  L = L - size_avg
+  return L
+
 #ウエストの値(円周)を計算し，返す
 @app.route("/waist", methods=["POST"])
 def waist_circle():
   try:
     with open("./files/waist_left.txt") as f:
       L1 = int(f.read())
+    L1 = clothDiffCorrect(L1)
     with open("./files/waist_right.txt") as f:
       L2 = int(f.read())
+    L2 = clothDiffCorrect(L2)
     #データの処理（円周の代表値を出す）
     L3 = 21 #センサーの背中
     L4 = 34 #センサーのお腹側
@@ -166,9 +196,18 @@ def shoulder_right():
 @app.route("/clothes1", methods=["POST"])
 def clothesDiffSave1():
   data = request.get_json(force=True)
-  distance = data['distance']
+  distance = int(data['distance'])
   with open("./files/clothes1.txt", mode="a") as f:
-    f.write(str(distance))
+    f.write(str(distance)+"\n")
+  out_filename = ""
+  if 20 < distance:
+    out_filename = "./files/clh1_over.txt"
+  elif 10 < distance:
+    out_filename = "./files/clh1_hodoyoi.txt"
+  else:
+    out_filename = "./files/clh1_pittari.txt"
+  with open(out_filename, mode='a') as f:
+    f.writelines(str(distance)+"\n")
   return jsonify(distance)
 
 #着衣と素肌の差を測ってファイル保存（上着あり）
@@ -177,14 +216,17 @@ def clothesDiffSave2():
   data = request.get_json(force=True)
   distance = data['distance']
   with open("./files/clothes2.txt", mode="a") as f:
-    f.write(str(distance))
+    f.write(str(distance)+"\n")
+    out_filename = ""
+  if 20 < distance:
+    out_filename = "./files/clh2_over.txt"
+  elif 10 < distance:
+    out_filename = "./files/clh2_hodoyoi.txt"
+  else:
+    out_filename = "./files/clh2_pittari.txt"
+  with open(out_filename, mode='a') as f:
+    f.writelines(str(distance)+"\n")
   return jsonify(distance)
-
-# @app.route("/")
-# def clothDiffCorrect():#着衣と素肌の誤差を補正
-#   res = 0
-  
-#   return jsonify(res)
 
 def outValue():#外れ値除外のアルゴリズム
   res = 0
