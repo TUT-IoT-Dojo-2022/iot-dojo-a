@@ -3,11 +3,11 @@ import json
 import requests
 
 def send():
-    url = ['http://localhost:5000/head', 'http://localhost:5000/legs', 'http://localhost:5000/wleft', 'http://localhost:5000/wright', 'http://localhost:5000/sleft', 'http://localhost:5000/sright']
+    url = ['http://localhost:5000/head', 'http://localhost:5000/legs', 'http://localhost:5000/wleft', 'http://localhost:5000/wright', 'http://localhost:5000/wfront', 'http://localhost:5000/wback', 'http://localhost:5000/sleft', 'http://localhost:5000/sright']
     to_sv = url[2]
     dist_data = []
     for i in range(10):
-        dist = 180
+        dist = 200
         dist_data.append(dist)
         time.sleep(0.1)
 
