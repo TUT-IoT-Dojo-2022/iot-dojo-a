@@ -1,12 +1,9 @@
-from math import dist
+import math
 from flask import Flask, request, render_template, jsonify
-from scipy.special import ellipe
-import time
+from scipy import special
 import statistics
-import json
-import requests
 
-room_height = 175
+room_height = 203
 room_yoko = 71 #測定する場所の横幅
 room_tate = 71 #測定する場所の奥行
 inseam_fix = 50
@@ -21,23 +18,23 @@ def web_view():
     with open("./files/height.txt") as f:
       height = int(f.read())
   except:
-    height = 0
+    height = " -- "
   try:
     with open("./files/legs.txt") as f:
       legs = int(f.read())
   except:
-    legs = 0
+    legs = " -- "
   try:
     with open("./files/shoulder.txt") as f:
       shoulder = int(f.read())
   except:
-    shoulder = 0
+    shoulder = " -- "
   try:
     with open("./files/waist.txt") as f:
       waist = int(f.read())
   except:
-    waist = 0
-  return render_template("index.html", data=[height,legs,shoulder,waist])
+    waist = " -- "
+  return render_template("human.html", data=[height,legs,shoulder,waist])
 
 #距離センサーの値を取得し，身長の計算（height.txtで保存)
 @app.route("/head", methods=["POST"])
@@ -100,7 +97,7 @@ def clothDiffCorrect(L):
   return L
 
 #ウエストの値(円周)を計算し，返す
-@app.route("/waist", methods=["POST"])
+#@app.route("/waist", methods=["POST"])
 def waist_circle():
   try:
     with open("./files/waist_left.txt") as f:
@@ -115,13 +112,13 @@ def waist_circle():
     daen_yoko = (room_yoko - (L1 + L2)) / 2
     daen_tate_1 = (room_tate - (L3 + L3)) / 2
     daen_tate_2 = (room_tate - (L4 + L4)) / 2
-    L = 4 * daen_yoko * ellipe(e)
+    L = 4 * daen_yoko * special.ellipe(math.e)
     print("f{:.3F}".format(L))
     with open("./files/waist.txt", mode="w") as f:
       f.write(str(L))
   except:
     L = None
-  return jsonify(L)
+  return L
 
 #ウエストの値(左側)を取得し，保存
 @app.route("/wleft", methods=["POST"])
@@ -136,7 +133,14 @@ def waist_left():
   print("Waist Left: " + str(dist_mode) + "cm")
   with open("./files/waist_left.txt", mode="w") as f:
     f.write(str(dist_mode))
-
+  try:
+    with open("./files/waist_left.txt") as f:
+      L1 = int(f.read())
+    with open("./files/waist_right.txt") as f:
+      L2 = int(f.read())
+    L = waist_circle()
+  except:
+    L = 0
   return jsonify(dist_mode)
 
 #ウエストの値(右側)を取得し，保存
@@ -152,32 +156,33 @@ def waist_right():
   print("Waist Right: " + str(dist_mode) + "cm")
   with open("./files/waist_right.txt", mode="w") as f:
     f.write(str(dist_mode))
-
+  try:
+    with open("./files/waist_left.txt") as f:
+      L1 = int(f.read())
+    with open("./files/waist_right.txt") as f:
+      L2 = int(f.read())
+    L = waist_circle()
+  except:
+    L = 0
   return jsonify(dist_mode)
 
-#肩幅の値(円周)を計算し，返す
-@app.route("/shoulder", methods=["POST"])
+#肩幅の値を計算し，返す
+#@app.route("/shoulder", methods=["POST"])
 def shoulder_circle():
   try:
     with open("./files/shoulder_left.txt") as f:
       L1 = int(f.read())
     with open("./files/shoulder_right.txt") as f:
       L2 = int(f.read())
-    #データの処理（円周の代表値を出す）
-    L3 = 21 #センサーの背中
-    L4 = 34 #センサーのお腹側
-    daen_yoko = (room_yoko - (L1 + L2)) / 2
-    daen_tate_1 = (room_tate - (L3 + L3)) / 2
-    daen_tate_2 = (room_tate - (L4 + L4)) / 2
-    L = 4 * daen_yoko * ellipe(e)
-    print("f{:.3F}".format(L))
+    yoko = room_yoko - (L1 + L2)
+    print(str(yoko) + "cm")
     with open("./files/shoulder.txt", mode="w") as f:
-      f.write(str(L))
+      f.write(str(yoko))
   except:
-    L = None
-  return L
+    yoko = None
+  return yoko
 
-#ウエストの値(左側)を取得し，保存
+#肩幅の値(左側)を取得し，保存
 @app.route("/sleft", methods=["POST"])
 def shoulder_left():
   data = request.get_json(force=True)
@@ -190,7 +195,14 @@ def shoulder_left():
   print("Shoulder Left: " + str(dist_mode) + "cm")
   with open("./files/shoulder_left.txt", mode="w") as f:
     f.write(str(dist_mode))
-
+  try:
+    with open("./files/shoulder_left.txt") as f:
+      L1 = int(f.read())
+    with open("./files/shoulder_right.txt") as f:
+      L2 = int(f.read())
+    L = shoulder_circle()
+  except:
+    L = 0
   return jsonify(dist_mode)
 
 #肩幅の値(右側)を取得し，保存
@@ -206,7 +218,14 @@ def shoulder_right():
   print("Shoulder Right: " + str(dist_mode) + "cm")
   with open("./files/shoulder_right.txt", mode="w") as f:
     f.write(str(dist_mode))
-
+  try:
+    with open("./files/shoulder_left.txt") as f:
+      L1 = int(f.read())
+    with open("./files/shoulder_right.txt") as f:
+      L2 = int(f.read())
+    L = shoulder_circle()
+  except:
+    L = 0
   return jsonify(dist_mode)
 
 #着衣と素肌の差を測ってファイル保存（上着なし）
