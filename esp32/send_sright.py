@@ -12,7 +12,7 @@ i2c = SoftI2C(scl=Pin(I2C_SCL_PIN), sda=Pin(I2C_SDA_PIN))
 distance = VL53L1X(i2c)
 
 def send():
-    url = 'http://192.168.100.67:5000/wback'
+    url = 'http://192.168.100.67:5000/sright'
     dist_data = []
     count = 0
     while count < 100:
@@ -25,7 +25,7 @@ def send():
         except:
             count += 0
 
-    sendData = {"device" : 6, "distance" : dist_data}
+    sendData = {"device" : 8, "distance" : dist_data}
     header = {'Content-Type': 'application/json'}
     print("Measurements complete! Please step aside...")
     time.sleep(1)
