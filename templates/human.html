@@ -4,78 +4,117 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+​
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+​
     <title>human</title>
 </head>
 <body>
+    <h1>計測結果</h1>
+​
     <div class="container">
-        <img src="https://1.bp.blogspot.com/-ouRTTJb5rGI/Xx-0efUr4JI/AAAAAAABaWI/wXpvziIWXr8nWIp1XubOfezGuNfNfE9qACNcBGAsYHQ/s1600/kenkoushindan01_shinchou_boy_kakato.png" alt="">
-        <p class="line">--------</p>
+        <img src="./human.html" alt="">
+        <p class="line line-height">------------</p>
         <p class="height">身長: <span id="height-js">100</span></p>
+        <p class="line line-kata">----------</p>
         <p class="kata">肩幅: <span id="kata-js">100</span></p>
+        <p class="line line-waist">----------</p>
         <p class="waist">ウエスト: <span id="waist-js">100</span></p>
+        <p class="line line-mata">----------</p>
         <p class="mata">股下: <span id="mata-js">100</span></p>
     </div>
-
+​
     <style>
         body {
         margin: 0;
         background-color: cornsilk;
-        }
-        img {
-            position: relative;
-            margin-top: 80px;
-            width: 300px;
-            height: 400px;
-            background-color: transparent;
+        overflow: hidden;
+        font-family: 'Noto Sans JP', sans-serif;
         }
         span {
             font-weight: bold;
+            text-decoration: underline;
+        }
+        img {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            background-color: transparent;
+        }
+        h1 {
+            margin-left: 100px;
+            margin-top: 100px;
         }
         .container {
-            width: 100vh;
-            height: auto;
+            position: fixed;
+            margin-left: 100px;
+            width: 500px;
+            height: 500px;
+            font-size: 25px;
         }
         .line {
+            color: red;
+            font-weight: bold;
+        }
+        .line-height {
             position: absolute;
-            top: 15%;
-            left: 14%;
+            top: -7%;
+            left: 35%;
+        }
+        .line-kata {
+            position: absolute;
+            top: 5%;
+            left: 38%;
+        }
+        .line-waist {
+            position: absolute;
+            top: 20%;
+            left: 36%;
+        }
+        .line-mata {
+            position: absolute;
+            top: 35%;
+            left: 36%;
         }
         .height {
             position: absolute;
-            left: 18%;
-            top: 15%;
+            top: -7%;
+            left: 56%;
         }
         .kata {
             position: absolute;
-            left: 18%;
-            top: 29%;
+            top: 5%;
+            left: 56%;
         }
         .waist {
             position: absolute;
-            left: 18%;
-            top: 38%;
+            top: 20%;
+            left: 54%;
         }
         .mata {
             position: absolute;
-            left: 18%;
-            top: 47%;
+            top: 35%;
+            left: 54%;
         }
     </style>
-
+​
     <script>
         const $height = document.querySelector("#height-js");
         const $kata = document.querySelector("#kata-js");
         const $waist = document.querySelector("#waist-js");
         const $mata = document.querySelector("#mata-js");
-
+        const measures = [$height, $kata, $waist, $mata];
+​
         let list_data = {{ data | tojson }}
-
+​
         $height.textContent = list_data[0] + "cm";
         $kata.textContent = list_data[2] + "cm";
         $waist.textContent = list_data[3] + "cm";
         $mata.textContent = list_data[1] + "cm";
+​
     </script>
-
+​
 </body>
 </html>
