@@ -3,9 +3,9 @@ from flask import Flask, request, render_template, jsonify
 from scipy import special
 import statistics
 
-room_height = 203
-room_yoko = 71 #測定する場所の横幅
-room_tate = 71 #測定する場所の奥行
+room_height = 187
+room_yoko = 68 #測定する場所の横幅
+room_tate = 68 #測定する場所の奥行
 inseam_fix = 50
 SIZE = 2 #ぴちぴち:1 / ちょうどいい:2 / オーバー：3
 CLOTHES_TYPE = 0 #上着なし:0 / 上着あり：1
@@ -117,7 +117,7 @@ def waist_circle():
     r2 = (room_tate - (L3 + L4)) / 2 #短径
     L = (math.pi * (r1 + r2)) * (1 + (3 * math.pow((r1 - r2) / (r1 + r2), 2)) / (10 + math.sqrt(4 - 3 * math.pow((r1 - r2) / (r1 + r2), 2))))
     with open("./files/waist.txt", mode="w") as f:
-      f.write(str(L))
+      f.write(str(L - 80))
   except:
     L = None
   return L

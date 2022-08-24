@@ -18,7 +18,7 @@ def send():
     while count < 100:
         try:
             dist = distance.read()
-            #print("range: mm ", distance.read())
+            print("range: mm ", distance.read())
             dist_data.append(dist)
             count += 1
             time.sleep(0.1)
