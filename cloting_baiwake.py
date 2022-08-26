@@ -65,7 +65,7 @@ class KMeans_pp:
         labels = dist.argmin(axis = 1)
         return labels
 #用いるデータ
-data = [10, 10, 18, 16, 14, 13, 19, 16, 14, 16, 12, 14, 12, 26, 22, 20, 20, 26, 24, 24]
+data = [10, 10, 18, 16, 14, 13, 19, 16, 14, 16, 12, 14, 12, 26, 22, 20, 20, 26, 24, 24, 12, 3, 16, 16, 7, 10 , 10, 10, 15, 15, 10, 13, 16, 28, 28, 20, 14, 20, 22, 12, 14, 11, 8, 10, 8, 2, 10, 12, 6, 18, 4, 14, 6, 9, 9, 32, 22, 14, 14, 18]
 data.sort()
 data_lst = []
 lst1 = []
@@ -103,9 +103,9 @@ ave_lst = [lst1_ave, lst2_ave, lst3_ave]#平均のリスト作成
 ave_lst.sort()
 
 #クラスタリングの引く値の抽出
-pittari = ave_lst[0]
-nomal = ave_lst[1]
-over = ave_lst[2]
+pittari = round(ave_lst[0])
+nomal = round(ave_lst[1])
+over = round(ave_lst[2])
 
 #print(pittari)
 #print(nomal)
