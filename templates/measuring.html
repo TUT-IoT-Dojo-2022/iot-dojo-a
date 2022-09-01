@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="./assets/css/measuring.css">
+    <link rel="stylesheet" href="./measuring.css">
 
     <title>human</title>
 </head>
@@ -17,7 +17,7 @@
     <h1>計測結果</h1>
     <div class="container">
         <div class="measure_result">
-            <img class="result_img" src="./assets/images/human.png" alt="">
+            <img class="result_img" src="./human.png" alt="">
             <p class="line line-height">------------</p>
             <p class="height">身長: <span class="result" id="height-js">--</span><br>
             <span class="raw">未加工データ: <span id="raw-height-js">--</span></span></p>
@@ -32,7 +32,7 @@
         </div>
 
         <div class="waist_show">
-            <img class="waist_img" src="./assets/images/waist_show.png" alt="">   
+            <img class="waist_img" src="./waist_show.png" alt="">   
             <p id="a-len-js">--</p> 
             <p id="b-len-js">--</p> 
             <p id="c-len-js">--</p> 
@@ -79,17 +79,17 @@
                           $raw_height, $raw_kata, $raw_mata,
                           $waist_a, $waist_b, $waist_c, $waist_d];
 
-        const accurates = [$height_accu, $kata_accu, $waist_accu, $mata_accu];
+        const accuracies = [$height_accu, $kata_accu, $waist_accu, $mata_accu];
 
-        const randInt = () => { return Math.round( Math.random() * 100 ); }
 
-        // テスト値としてランダム値を付与
-        measures.forEach( element => {
-            element.textContent = randInt() + "cm";
+        let list_data = {{ data | tojson }}
+
+        measures.forEach( ( el, idx ) => {
+            element.textContent = list_data[idx] + "cm";
         });
 
-        accurates.forEach( element => {
-            element.textContent = randInt() + "%";
+        accuracies.forEach( el, idx => {
+            element.textContent = list_data[idx] + "%";
         })
 
     </script>
