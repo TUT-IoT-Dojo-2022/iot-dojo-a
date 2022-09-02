@@ -1,0 +1,155 @@
+
+body {
+    margin: 0;
+    background-color: #fff;
+    font-family: 'Noto Sans JP', sans-serif;
+}
+span {
+    font-weight: bold;
+    text-decoration: underline;
+    font-size: 25px;
+}
+h1 {
+    margin-top: 20px;
+    margin-left: 20px;
+}
+.container {
+    display: flex;
+    width: 100vh;
+    height: auto;
+}
+.measure_result {
+    position: relative;
+    flex-shrink: 0;
+    width: 670px;
+    height: 400px;
+    font-size: 27px;
+    color: #222;
+    border-right: 3px solid;
+}
+.result_img {
+    width: 400px;
+    height: 400px;
+    background-color: transparent;
+}
+.line {
+    color: red;
+    font-weight: bold;
+}
+.line-height {
+    position: absolute;
+    top: -10%;
+    left: 34%;
+}
+.line-kata {
+    position: absolute;
+    top: 12%;
+    left: 37%;
+}
+.line-waist {
+    position: absolute;
+    top: 40%;
+    left: 36%;
+}
+.line-mata {
+    position: absolute;
+    top: 60%;
+    left: 36%;
+}
+.height {
+    position: absolute;
+    top: -12%;
+    left: 52%;
+}
+.kata {
+    position: absolute;
+    top: 12%;
+    left: 52%;
+}
+.waist {
+    position: absolute;
+    top: 39%;
+    left: 51%;
+}
+.mata {
+    position: absolute;
+    top: 60%;
+    left: 51%;
+}
+.result {
+    font-size: 35px;
+}
+.raw {
+    font-size: 20px;
+    text-decoration: none;
+}
+#raw-kata-a-js,
+#raw-kata-b-js {
+    font-size: 25px;
+    
+}
+
+.waist_show {
+    margin-left: 70px;
+    position: relative;
+    flex-shrink: 0;
+    width: 500px;
+    height: 400px;
+    font-size: 27px;
+    color: #222;
+    font-weight: bold;
+    transform: translateY(-30px);
+}
+.waist_img {
+    width: 470px;
+    height: auto;
+    background-color: transparent;
+}
+#a-len-js {
+    position: absolute;
+    top: 19%;
+    left: 30%;
+    text-decoration: underline;
+}
+#b-len-js {
+    position: absolute;
+    top: 9%;
+    left: 52%;
+    text-decoration: underline;
+}
+#c-len-js {
+    position: absolute;
+    top: 33%;
+    left: 58%;
+    text-decoration: underline;
+}
+#d-len-js {
+    position: absolute;
+    top: 42%;
+    left: 32%;
+    text-decoration: underline;
+}
+.calculation {
+    position: absolute;
+    top: 75%;
+    left: 45%;
+}
+.calc_img {
+    position: absolute;
+    width: 400px;
+    height: auto;
+    top: 80%;
+    left: 0%;
+}
+
+.accuracy {
+    margin-left: 50px;
+    font-size: 27px;
+    width: 100%;
+}
+.accuracy > h4 {
+    margin: 5px;
+}
+.result_accu {
+    font-size: 35px;
+}

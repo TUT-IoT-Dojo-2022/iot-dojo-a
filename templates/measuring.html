@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+
+    <style type="text/css">
+    body {
+        margin: 0;
+        background-color: #fff;
+        font-family: 'Noto Sans JP', sans-serif;
+    }
+    span {
+        font-weight: bold;
+        text-decoration: underline;
+        font-size: 25px;
+    }
+    h1 {
+        margin-top: 20px;
+        margin-left: 20px;
+    }
+    .container {
+        display: flex;
+        width: 100vh;
+        height: auto;
+    }
+    .measure_result {
+        position: relative;
+        flex-shrink: 0;
+        width: 670px;
+        height: 400px;
+        font-size: 27px;
+        color: #222;
+        border-right: 3px solid;
+    }
+    .result_img {
+        width: 400px;
+        height: 400px;
+        background-color: transparent;
+    }
+    .line {
+        color: red;
+        font-weight: bold;
+    }
+    .line-height {
+        position: absolute;
+        top: -10%;
+        left: 34%;
+    }
+    .line-kata {
+        position: absolute;
+        top: 12%;
+        left: 37%;
+    }
+    .line-waist {
+        position: absolute;
+        top: 40%;
+        left: 36%;
+    }
+    .line-mata {
+        position: absolute;
+        top: 60%;
+        left: 36%;
+    }
+    .height {
+        position: absolute;
+        top: -12%;
+        left: 52%;
+    }
+    .kata {
+        position: absolute;
+        top: 12%;
+        left: 52%;
+    }
+    .waist {
+        position: absolute;
+        top: 39%;
+        left: 51%;
+    }
+    .mata {
+        position: absolute;
+        top: 60%;
+        left: 51%;
+    }
+    .result {
+        font-size: 35px;
+    }
+    .raw {
+        font-size: 20px;
+        text-decoration: none;
+    }
+    #raw-kata-a-js,
+    #raw-kata-b-js {
+        font-size: 25px;
+        
+    }
+
+    .waist_show {
+        margin-left: 70px;
+        position: relative;
+        flex-shrink: 0;
+        width: 500px;
+        height: 400px;
+        font-size: 27px;
+        color: #222;
+        font-weight: bold;
+        transform: translateY(-30px);
+    }
+    .waist_img {
+        width: 470px;
+        height: auto;
+        background-color: transparent;
+    }
+    #a-len-js {
+        position: absolute;
+        top: 19%;
+        left: 30%;
+        text-decoration: underline;
+    }
+    #b-len-js {
+        position: absolute;
+        top: 9%;
+        left: 52%;
+        text-decoration: underline;
+    }
+    #c-len-js {
+        position: absolute;
+        top: 33%;
+        left: 58%;
+        text-decoration: underline;
+    }
+    #d-len-js {
+        position: absolute;
+        top: 42%;
+        left: 32%;
+        text-decoration: underline;
+    }
+    .calculation {
+        position: absolute;
+        top: 75%;
+        left: 45%;
+    }
+    .calc_img {
+        position: absolute;
+        width: 400px;
+        height: auto;
+        top: 80%;
+        left: 0%;
+    }
+
+    .accuracy {
+        margin-left: 50px;
+        font-size: 27px;
+        width: 100%;
+    }
+    .accuracy > h4 {
+        margin: 5px;
+    }
+    .result_accu {
+        font-size: 35px;
+    }
+    </style>
+
+    <title>human</title>
+</head>
+<body>
+        <h1>計測結果</h1>
+    <div class="container">
+        <div class="measure_result">
+            <img class="result_img" src="https://raw.githubusercontent.com/TUT-IoT-Dojo-2022/iot-dojo-a/main/templates/human.png" alt="">
+            <p class="line line-height">------------</p>
+            <p class="height">身長: <span class="result" id="height-js">--</span><br>
+            <span class="raw">未加工データ: <span id="raw-height-js">--</span></span></p>
+            <p class="line line-kata">----------</p>
+            <p class="kata">肩幅: <span class="result" id="kata-js">--</span><br>
+            <span class="raw"> 未加工データ: 左&nbsp;<span id="raw-kata-a-js">--</span>&nbsp;右&nbsp;<span id="raw-kata-b-js">--</span></span></p>
+            <p class="line line-waist">----------</p>
+            <p class="waist">ウエスト: <span class="result" id="waist-js">--</span></p>
+            <p class="line line-mata">----------</p>
+            <p class="mata">股下: <span class="result" id="mata-js">--</span><br>
+            <span class="raw"> 未加工データ: <span id="raw-mata-js">--</span></span></p>
+        </div>
+
+        <div class="waist_show">
+            <img class="waist_img" src="https://raw.githubusercontent.com/TUT-IoT-Dojo-2022/iot-dojo-a/main/templates/waist_show.png" alt="">   
+            <p id="a-len-js">--</p> 
+            <p id="b-len-js">--</p> 
+            <p id="c-len-js">--</p> 
+            <p id="d-len-js">--</p> 
+
+            <img class="calc_img" src="https://raw.githubusercontent.com/TUT-IoT-Dojo-2022/iot-dojo-a/main/templates/calculation.png" alt="">
+        </div>
+    </div>
+
+    <div class="accuracy">
+        <p>
+            <h4>計測の精度</h3>
+            身長: <span class="result_accu" id="height-accuracy">--</span>&emsp;    
+            肩幅: <span class="result_accu" id="kata-accuracy">--</span>&emsp;
+            ウエスト: <span class="result_accu" id="waist-accuracy">--</span>&emsp;   
+            股下: <span class="result_accu" id="mata-accuracy">--</span>    
+        </p>
+    </div>
+
+    <script>
+        // 計測結果
+        const $height = document.querySelector("#height-js");
+        const $kata = document.querySelector("#kata-js");
+        const $waist = document.querySelector("#waist-js");
+        const $mata = document.querySelector("#mata-js");
+        // 生のデータ
+        const $raw_height = document.querySelector("#raw-height-js");
+        const $raw_kata_a = document.querySelector("#raw-kata-a-js");
+        const $raw_kata_b = document.querySelector("#raw-kata-b-js");
+        const $raw_mata = document.querySelector("#raw-mata-js");
+        // ウエストの計算過程
+        const $waist_a = document.querySelector("#a-len-js");
+        const $waist_b = document.querySelector("#b-len-js");
+        const $waist_c = document.querySelector("#c-len-js");
+        const $waist_d = document.querySelector("#d-len-js");
+        // 計測の精度
+        const $height_accu = document.querySelector("#height-accuracy");
+        const $kata_accu = document.querySelector("#kata-accuracy");
+        const $waist_accu = document.querySelector("#waist-accuracy");
+        const $mata_accu = document.querySelector("#mata-accuracy");
+        
+        // 各種計測結果
+        const measures = [ $height, $kata, $waist, $mata, 
+                          $raw_height, $raw_kata_a, $raw_kata_b, $raw_mata,
+                          $waist_a, $waist_b, $waist_c, $waist_d ];
+
+        // 各種精度のデータ
+        const accuracies = [ $height_accu, $kata_accu, $waist_accu, $mata_accu ];
+
+        //Flaskからデータを取得 
+        let list_data = {{ data | tojson }};
+
+        let idx = 0;
+        measures.forEach( el => {
+            el.textContent = list_data[idx++] + "cm";
+        });
+        idx = 0;
+        accuracies.forEach( el => {
+            el.textContent = list_data[idx++] + "%";
+        })
+
+    </script>
+
+</body>
+</html>
