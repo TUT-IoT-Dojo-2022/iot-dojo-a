@@ -3,9 +3,9 @@ from flask import Flask, request, render_template, jsonify
 from scipy import special
 import statistics
 
-room_height = 187
-room_yoko = 68 #測定する場所の横幅
-room_tate = 68 #測定する場所の奥行
+room_height = 194
+room_yoko = 110 #測定する場所の横幅
+room_tate = 110 #測定する場所の奥行
 inseam_fix = 50
 SIZE = 2 #ぴちぴち:1 / ちょうどいい:2 / オーバー：3
 CLOTHES_TYPE = 0 #上着なし:0 / 上着あり：1
