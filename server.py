@@ -89,8 +89,15 @@ def inseam_mode():
 
 #着衣と素肌の誤差を補正
 def clothDiffCorrect(L):
-#k-meansを行うためのプログラム
-class KMeans_pp:
+  data = []
+  data_lst = []
+  lst1 = []
+  lst2 = []
+  lst3 = []
+  pittari = 0
+  nomal = 0
+  over = 0
+  class KMeans_pp:
     def __init__(self, n_clusters, max_iter = 1000, random_seed = 0):
         self.n_clusters = n_clusters
         self.max_iter = max_iter
@@ -153,59 +160,48 @@ class KMeans_pp:
         dist = ((X[:, :, np.newaxis] - self.cluster_centers_.T[np.newaxis, :, :]) ** 2).sum(axis = 1)
         labels = dist.argmin(axis = 1)
         return labels
-#用いるデータ
-with open ("./files/k-means.txt") as f:
-    for i in f:
-        data.append(i)
-data.sort()
-data_lst = []
-lst1 = []
-lst2 = []
-lst3 = []
-pittari = 0
-nomal = 0
-over = 0
-L = 0 #ウエストの値
-for i, n in enumerate(data,0):
-    data_lst_1 = [i, n]
-    data_lst.append(data_lst_1)
-atumi_data = np.array(data_lst)
 
-#3つのクラスタに分けるモデルを作成
-model =  KMeans_pp(3)
-model.fit(atumi_data)
+  with open ("./files/k-means.txt") as f:
+      for i in f:
+          data.append(i)
+  data.sort()
+  for i, n in enumerate(data,0):
+      data_lst_1 = [i, n]
+      data_lst.append(data_lst_1)
+  atumi_data = np.array(data_lst)
 
-#print(model.labels_)
+  #3つのクラスタに分けるモデルを作成
+  model =  KMeans_pp(3)
+  model.fit(atumi_data)
 
-#ラベルごとに平均を出す
-for i in range(len(data)):
-  if model.labels_[i] == 2:
-    lst1.append(data[i])
-  elif model.labels_[i] == 1:
-    lst2.append(data[i])
-  elif model.labels_[i] == 0:
-    lst3.append(data[i]) 
+  #ラベルごとに平均を出す
+  for i in range(len(data)):
+    if model.labels_[i] == 2:
+      lst1.append(data[i])
+    elif model.labels_[i] == 1:
+      lst2.append(data[i])
+    elif model.labels_[i] == 0:
+      lst3.append(data[i]) 
 
-lst1_ave = sum(lst1) / len(lst1)
-lst2_ave = sum(lst2) / len(lst2)
-lst3_ave = sum(lst3) / len(lst3)
+  lst1_ave = sum(lst1) / len(lst1)
+  lst2_ave = sum(lst2) / len(lst2)
+  lst3_ave = sum(lst3) / len(lst3)
 
-ave_lst = [lst1_ave, lst2_ave, lst3_ave]#平均のリスト作成
-ave_lst.sort()
+  ave_lst = [lst1_ave, lst2_ave, lst3_ave]#平均のリスト作成
+  ave_lst.sort()
 
-#クラスタリングの引く値の抽出
-pittari = round(ave_lst[0])
-nomal = round(ave_lst[1])
-over = round(ave_lst[2])
-
-if Size == 1:
-    L = L - pittari
-elif Size == 2:
-    L = L - nomal
-elif Size == 3:
-    L = L - over
-print(L)
+  #クラスタリングの引く値の抽出
+  pittari = round(ave_lst[0])
+  nomal = round(ave_lst[1])
+  over = round(ave_lst[2])
+  if SIZE == 1:
+      L = L - pittari
+  elif SIZE == 2:
+      L = L - nomal
+  elif SIZE == 3:
+      L = L - over
   return L
+  
 
 #ウエストの値(円周)を計算し，返す
 #@app.route("/waist", methods=["POST"])
