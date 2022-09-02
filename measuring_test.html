@@ -74,7 +74,10 @@
         const $waist_accu = document.querySelector("#waist-accuracy");
         const $mata_accu = document.querySelector("#mata-accuracy");
         
+        //Flaskからデータを取得 
+        let list_data = {{ data | tojson }}
 
+        //肩幅は左右2つあるので修正
         const measures = [$height, $kata, $waist, $mata, 
                           $raw_height, $raw_kata, $raw_mata,
                           $waist_a, $waist_b, $waist_c, $waist_d];
