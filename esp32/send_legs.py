@@ -12,7 +12,7 @@ i2c = I2C(scl=Pin(I2C_SCL_PIN), sda=Pin(I2C_SDA_PIN))
 distance = VL53L1X(i2c)
 
 def send():
-    url = 'http://192.168.100.67:5000/legs'
+    url = 'http://192.168.2.105:5000/legs'
     dist_data = []
     count = 0
     while count < 100:
@@ -21,6 +21,7 @@ def send():
             #print("range: mm ", distance.read())
             dist_data.append(dist)
             count += 1
+            time.sleep(0.1)
         except:
             count += 0
 
