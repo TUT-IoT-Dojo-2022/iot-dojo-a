@@ -34,7 +34,22 @@ def web_view():
       waist = int(float(f.read()))
   except:
     waist = " -- "
-  return render_template("human.html", data=[height,legs,shoulder,waist])
+  try:
+    with open("./files/shoulder_left.txt") as f:
+      raw_kata_a = int(float(f.read()))
+  except:
+    raw_kata_a = " -- "
+  try:
+    with open("./files/shoulder_right.txt") as f:
+      raw_kata_b = int(float(f.read()))
+  except:
+    raw_kata_b = " -- "
+  try:
+    with open("./files/waist.txt") as f:
+      waist_a = waist_b = waist_c = waist_d  = int(float(f.read()))
+  except:
+    waist_a = waist_b = waist_c = waist_d = " -- "
+  return render_template("measuring.html", data=[height,shoulder,waist,legs,height,raw_kata_a,raw_kata_b,str(int(legs)-inseam_fix),waist_a,waist_b,waist_c,waist_d])
 
 #距離センサーの値を取得し，身長の計算（height.txtで保存)
 @app.route("/head", methods=["POST"])

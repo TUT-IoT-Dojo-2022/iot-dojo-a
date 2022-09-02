@@ -1,10 +1,9 @@
-SSID_NAME = "CDSL-A910-11n"
-SSID_PASS = "11n-j9$4zt3kch" 
-
 import utime
 import network
 import webrepl
-import machine
+
+SSID_NAME = "iot-dojo"
+SSID_PASS = "6a5jxurvjxha" 
 
 def connect_wifi(ssid, passkey, timeout=10):
     wifi= network.WLAN(network.STA_IF)
@@ -34,4 +33,4 @@ def connect_wifi(ssid, passkey, timeout=10):
         print('Connection failed!')
         return ''
     
-wifi_cdsl = connect_wifi(SSID_NAME, SSID_PASS)
+wifi_dojo = connect_wifi(SSID_NAME, SSID_PASS)
