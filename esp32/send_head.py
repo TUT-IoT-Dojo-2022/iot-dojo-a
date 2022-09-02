@@ -1,14 +1,14 @@
 import time
 import ujson
 import urequests
-from machine import I2C,Pin
+from machine import SoftI2C,Pin
 from vl53l1x import VL53L1X
 
 I2C_SCL_PIN = 22
 I2C_SDA_PIN = 21
 p5 = Pin(5,Pin.OUT)
 p5.on()
-i2c = I2C(scl=Pin(I2C_SCL_PIN), sda=Pin(I2C_SDA_PIN))
+i2c = SoftI2C(scl=Pin(I2C_SCL_PIN), sda=Pin(I2C_SDA_PIN))
 distance = VL53L1X(i2c)
 
 def send():
