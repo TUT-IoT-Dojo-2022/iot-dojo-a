@@ -163,13 +163,13 @@ def clothDiffCorrect(L):
 
   with open ("./files/k-means.txt") as f:
       for i in f:
+          i = int(i)
           data.append(i)
   data.sort()
   for i, n in enumerate(data,0):
       data_lst_1 = [i, n]
       data_lst.append(data_lst_1)
   atumi_data = np.array(data_lst)
-
   #3つのクラスタに分けるモデルを作成
   model =  KMeans_pp(3)
   model.fit(atumi_data)
