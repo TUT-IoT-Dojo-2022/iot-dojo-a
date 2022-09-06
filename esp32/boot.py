@@ -3,7 +3,7 @@ import network
 import webrepl
 
 SSID_NAME = "iot-dojo"
-SSID_PASS = "6a5jxurvjxha" 
+SSID_PASS = "6a5jxurvjxha"
 
 def connect_wifi(ssid, passkey, timeout=10):
     wifi= network.WLAN(network.STA_IF)
