@@ -7,11 +7,11 @@ def send(n):
     url = ['http://localhost:5000/head', 'http://localhost:5000/legs', 'http://localhost:5000/wleft', 'http://localhost:5000/wright', 'http://localhost:5000/wfront', 'http://localhost:5000/wback', 'http://localhost:5000/sleft', 'http://localhost:5000/sright']    
     to_sv = url[n]
     dist_data = []
-    for i in range(50):
+    for i in range(100):
         if n == 0:
-            dist = random.randint(40,100)
+            dist = random.randint(10,20)
         elif n == 1:
-            dist = random.randint(300,400)
+            dist = random.randint(30,50)
         elif n == 2 or n == 3:
             dist = random.randint(190,220)
         elif n == 4 or n == 5:

@@ -10,6 +10,7 @@ room_yoko = 110 #測定する場所の横幅
 room_tate = 110 #測定する場所の奥行
 inseam_fix = 50
 SIZE = 2 #ぴちぴち:1 / ちょうどいい:2 / オーバー：3
+FUNC_NUM = 0
 CLOTHES_TYPE = 0 #上着なし:0 / 上着あり：1
 
 app = Flask(__name__)
@@ -51,7 +52,7 @@ def web_view():
       waist_a = waist_b = waist_c = waist_d  = int(float(f.read()))
   except:
     waist_a = waist_b = waist_c = waist_d = " -- "
-  return render_template("measuring.html", data=[height,shoulder,waist,legs,height,raw_kata_a,raw_kata_b,str(int(legs)-inseam_fix),waist_a,waist_b,waist_c,waist_d])
+  return render_template("index.html", data=[height,shoulder,waist,legs,height,raw_kata_a,raw_kata_b,str(int(legs)-inseam_fix),waist_a,waist_b,waist_c,waist_d])
 
 #距離センサーの値を取得し，身長の計算（height.txtで保存)
 @app.route("/head", methods=["POST"])
@@ -86,6 +87,115 @@ def inseam_mode():
     f.write(str(result_dist))
 
   return jsonify(result_dist)
+
+#側面（左）の距離センサーの値を取得し，関数呼び出し（legs.txtで保存)
+@app.route("/left", methods=["POST"])
+def dist_left_mode():
+  data = request.get_json(force=True)
+  distance = data['distance']
+  dist_db = []
+  for d in distance:
+    dist_cm = int(round(d) / 10.0) 
+    dist_db.append(dist_cm)
+  dist_mode = statistics.mode(dist_db)
+  if FUNC_NUM == 1:
+    with open("./files/shoulder_left.txt", mode="w") as f:
+      f.write(str(dist_mode))
+  elif FUNC_NUM == 2:
+    with open("./files/waist_left.txt", mode="w") as f:
+      f.write(str(dist_mode))
+  elif FUNC_NUM == 3:
+    waist_front(dist_mode)
+  else:
+    with open("./files/left.txt", mode="w") as f:
+      f.write(str(dist_mode))
+  print("Left: " + str(dist_mode) + "cm")
+  return jsonify(FUNC_NUM, dist_mode)
+
+@app.route("/right", methods=["POST"])
+def dist_right_mode():
+  data = request.get_json(force=True)
+  distance = data['distance']
+  dist_db = []
+  for d in distance:
+    dist_cm = int(round(d) / 10.0) 
+    dist_db.append(dist_cm)
+  dist_mode = statistics.mode(dist_db)
+  if FUNC_NUM == 1:
+    with open("./files/shoulder_right.txt", mode="w") as f:
+      f.write(str(dist_mode))
+  elif FUNC_NUM == 2:
+    with open("./files/waist_right.txt", mode="w") as f:
+      f.write(str(dist_mode))
+  elif FUNC_NUM == 3:
+    waist_front(dist_mode)
+  else:
+    with open("./files/right.txt", mode="w") as f:
+      f.write(str(dist_mode))
+  print("Right: " + str(dist_mode) + "cm")
+  return jsonify(FUNC_NUM, dist_mode)
+
+#ウエストの値(円周)を計算し，返す
+#@app.route("/waist", methods=["POST"])
+def waist_circle():
+  try:
+    with open("./files/waist_left.txt") as f:
+      L1 = int(f.read())
+    L1 = clothDiffCorrect(L1)
+    with open("./files/waist_right.txt") as f:
+      L2 = int(f.read())
+    L2 = clothDiffCorrect(L2)
+    with open("./files/waist_front.txt") as f:
+      L3 = int(f.read())
+    L3 = clothDiffCorrect(L3)
+    with open("./files/waist_back.txt") as f:
+      L4 = int(f.read())
+    L4 = clothDiffCorrect(L4)
+    #データの処理（円周の代表値を出す）
+    r1 = (room_yoko - (L1 + L2)) / 2 #長径
+    r2 = (room_tate - (L3 + L4)) / 2 #短径
+    L = (math.pi * (r1 + r2)) * (1 + (3 * math.pow((r1 - r2) / (r1 + r2), 2)) / (10 + math.sqrt(4 - 3 * math.pow((r1 - r2) / (r1 + r2), 2))))
+    with open("./files/waist.txt", mode="w") as f:
+      f.write(str(L - 80))
+  except:
+    L = None
+  return L
+
+#ウエストの値を計算し，保存
+def waist_front(dist):
+  dist_mode = dist
+  print("Waist Front: " + str(dist_mode) + "cm")
+  with open("./files/waist_front.txt", mode="w") as f:
+    f.write(str(dist_mode))
+  try:
+    with open("./files/waist_left.txt") as f:
+      L1 = int(f.read())
+    with open("./files/waist_right.txt") as f:
+      L2 = int(f.read())
+    with open("./files/waist_back.txt") as f:
+      L4 = int(f.read())
+    L = waist_circle()
+  except:
+    L = 0
+  return jsonify(L)
+
+#ウエストの値を取得し，保存
+def waist_back(ｄist):
+  dist_mode = dist
+  print("Waist Back: " + str(dist_mode) + "cm")
+  with open("./files/waist_back.txt", mode="w") as f:
+    f.write(str(dist_mode))
+  try:
+    with open("./files/waist_left.txt") as f:
+      L1 = int(f.read())
+    with open("./files/waist_right.txt") as f:
+      L2 = int(f.read())
+    with open("./files/waist_front.txt") as f:
+      L3 = int(f.read())
+    L = waist_circle()
+  except:
+    L = 0
+  return jsonify(L)
 
 #着衣と素肌の誤差を補正
 def clothDiffCorrect(L):
@@ -201,195 +311,6 @@ def clothDiffCorrect(L):
   elif SIZE == 3:
       L = L - over
   return L
-  
-
-#ウエストの値(円周)を計算し，返す
-#@app.route("/waist", methods=["POST"])
-def waist_circle():
-  try:
-    with open("./files/waist_left.txt") as f:
-      L1 = int(f.read())
-    L1 = clothDiffCorrect(L1)
-    with open("./files/waist_right.txt") as f:
-      L2 = int(f.read())
-    L2 = clothDiffCorrect(L2)
-    with open("./files/waist_front.txt") as f:
-      L3 = int(f.read())
-    L3 = clothDiffCorrect(L3)
-    with open("./files/waist_back.txt") as f:
-      L4 = int(f.read())
-    L4 = clothDiffCorrect(L4)
-    #データの処理（円周の代表値を出す）
-    r1 = (room_yoko - (L1 + L2)) / 2 #長径
-    r2 = (room_tate - (L3 + L4)) / 2 #短径
-    L = (math.pi * (r1 + r2)) * (1 + (3 * math.pow((r1 - r2) / (r1 + r2), 2)) / (10 + math.sqrt(4 - 3 * math.pow((r1 - r2) / (r1 + r2), 2))))
-    with open("./files/waist.txt", mode="w") as f:
-      f.write(str(L - 80))
-  except:
-    L = None
-  return L
-
-#ウエストの値(左側)を取得し，保存
-@app.route("/wleft", methods=["POST"])
-def waist_left():
-  data = request.get_json(force=True)
-  distance = data['distance']
-  dist_db = []
-  for d in distance:
-    dist_cm = int(round(d) / 10.0) 
-    dist_db.append(dist_cm)
-  dist_mode = statistics.mode(dist_db)
-  print("Waist Left: " + str(dist_mode) + "cm")
-  with open("./files/waist_left.txt", mode="w") as f:
-    f.write(str(dist_mode))
-  try:
-    with open("./files/waist_right.txt") as f:
-      L2 = int(f.read())
-    with open("./files/waist_front.txt") as f:
-      L3 = int(f.read())
-    with open("./files/waist_back.txt") as f:
-      L4 = int(f.read())
-    L = waist_circle()
-  except:
-    L = 0
-  return jsonify(dist_mode)
-
-#ウエストの値(右側)を取得し，保存
-@app.route("/wright", methods=["POST"])
-def waist_right():
-  data = request.get_json(force=True)
-  distance = data['distance']
-  dist_db = []
-  for d in distance:
-    dist_cm = int(round(d) / 10.0) 
-    dist_db.append(dist_cm)
-  dist_mode = statistics.mode(dist_db)
-  print("Waist Right: " + str(dist_mode) + "cm")
-  with open("./files/waist_right.txt", mode="w") as f:
-    f.write(str(dist_mode))
-  try:
-    with open("./files/waist_left.txt") as f:
-      L1 = int(f.read())
-    with open("./files/waist_front.txt") as f:
-      L3 = int(f.read())
-    with open("./files/waist_back.txt") as f:
-      L4 = int(f.read())
-    L = waist_circle()
-  except:
-    L = 0
-  return jsonify(dist_mode)
-
-#ウエストの値(前側)を取得し，保存
-@app.route("/wfront", methods=["POST"])
-def waist_front():
-  data = request.get_json(force=True)
-  distance = data['distance']
-  dist_db = []
-  for d in distance:
-    dist_cm = int(round(d) / 10.0) 
-    dist_db.append(dist_cm)
-  dist_mode = statistics.mode(dist_db)
-  print("Waist Front: " + str(dist_mode) + "cm")
-  with open("./files/waist_front.txt", mode="w") as f:
-    f.write(str(dist_mode))
-  try:
-    with open("./files/waist_left.txt") as f:
-      L1 = int(f.read())
-    with open("./files/waist_right.txt") as f:
-      L2 = int(f.read())
-    with open("./files/waist_back.txt") as f:
-      L4 = int(f.read())
-    L = waist_circle()
-  except:
-    L = 0
-  return jsonify(dist_mode)
-
-#ウエストの値(前側)を取得し，保存
-@app.route("/wback", methods=["POST"])
-def waist_back():
-  data = request.get_json(force=True)
-  distance = data['distance']
-  dist_db = []
-  for d in distance:
-    dist_cm = int(round(d) / 10.0) 
-    dist_db.append(dist_cm)
-  dist_mode = statistics.mode(dist_db)
-  print("Waist Back: " + str(dist_mode) + "cm")
-  with open("./files/waist_back.txt", mode="w") as f:
-    f.write(str(dist_mode))
-  try:
-    with open("./files/waist_left.txt") as f:
-      L1 = int(f.read())
-    with open("./files/waist_right.txt") as f:
-      L2 = int(f.read())
-    with open("./files/waist_front.txt") as f:
-      L3 = int(f.read())
-    L = waist_circle()
-  except:
-    L = 0
-  return jsonify(dist_mode)
-
-#肩幅の値を計算し，返す
-#@app.route("/shoulder", methods=["POST"])
-def shoulder_circle():
-  try:
-    with open("./files/shoulder_left.txt") as f:
-      L1 = int(f.read())
-    with open("./files/shoulder_right.txt") as f:
-      L2 = int(f.read())
-    yoko = room_yoko - (L1 + L2)
-    print(str(yoko) + "cm")
-    with open("./files/shoulder.txt", mode="w") as f:
-      f.write(str(yoko))
-  except:
-    yoko = None
-  return yoko
-
-#肩幅の値(左側)を取得し，保存
-@app.route("/sleft", methods=["POST"])
-def shoulder_left():
-  data = request.get_json(force=True)
-  distance = data['distance']
-  dist_db = []
-  for d in distance:
-    dist_cm = int(round(d) / 10.0) 
-    dist_db.append(dist_cm)
-  dist_mode = statistics.mode(dist_db)
-  print("Shoulder Left: " + str(dist_mode) + "cm")
-  with open("./files/shoulder_left.txt", mode="w") as f:
-    f.write(str(dist_mode))
-  try:
-    with open("./files/shoulder_left.txt") as f:
-      L1 = int(f.read())
-    with open("./files/shoulder_right.txt") as f:
-      L2 = int(f.read())
-    L = shoulder_circle()
-  except:
-    L = 0
-  return jsonify(dist_mode)
-
-#肩幅の値(右側)を取得し，保存
-@app.route("/sright", methods=["POST"])
-def shoulder_right():
-  data = request.get_json(force=True)
-  distance = data['distance']
-  dist_db = []
-  for d in distance:
-    dist_cm = int(round(d) / 10.0) 
-    dist_db.append(dist_cm)
-  dist_mode = statistics.mode(dist_db)
-  print("Shoulder Right: " + str(dist_mode) + "cm")
-  with open("./files/shoulder_right.txt", mode="w") as f:
-    f.write(str(dist_mode))
-  try:
-    with open("./files/shoulder_left.txt") as f:
-      L1 = int(f.read())
-    with open("./files/shoulder_right.txt") as f:
-      L2 = int(f.read())
-    L = shoulder_circle()
-  except:
-    L = 0
-  return jsonify(dist_mode)
 
 #着衣と素肌の差を測ってファイル保存（上着なし）
 @app.route("/clothes1", methods=["POST"])
