@@ -1,16 +1,14 @@
 import math
-from flask import Flask, request, render_template, jsonify
-from scipy import special
 import statistics
 import numpy as np
-import matplotlib.pyplot as plt
+from flask import Flask, request, render_template, jsonify
 
 room_height = 194
 room_yoko = 110 #測定する場所の横幅
 room_tate = 110 #測定する場所の奥行
 inseam_fix = 50
 SIZE = 2 #ぴちぴち:1 / ちょうどいい:2 / オーバー：3
-FUNC_NUM = 0
+FUNC_NUM = 0 #初期値:0 / 身長・股下の終了時:1 / 肩幅開始時:2 / ウエスト左右開始時:3 / ウエスト前後開始時:4 / 測定終了時:5
 CLOTHES_TYPE = 0 #上着なし:0 / 上着あり：1
 
 app = Flask(__name__)
@@ -65,10 +63,12 @@ def height_mode():
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
   result_dist = room_height - dist_mode
-  print("Height: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
-  with open("./files/height.txt", mode="w") as f:
-    f.write(str(result_dist))
-
+  if FUNC_NUM < 1:
+    print("Height: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
+    with open("./files/height.txt", mode="w") as f:
+      f.write(str(result_dist))
+  else:
+    print("Height Skip")
   return jsonify(result_dist)
 
 #距離センサーの値を取得し，股下の計算（legs.txtで保存)
@@ -82,9 +82,12 @@ def inseam_mode():
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
   result_dist = dist_mode + inseam_fix
-  print("Inseam: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
-  with open("./files/legs.txt", mode="w") as f:
-    f.write(str(result_dist))
+  if FUNC_NUM < 1:
+    print("Inseam: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
+    with open("./files/legs.txt", mode="w") as f:
+      f.write(str(result_dist))
+  else:
+    print("Inseam Skip")
 
   return jsonify(result_dist)
 
@@ -98,13 +101,13 @@ def dist_left_mode():
     dist_cm = int(round(d) / 10.0) 
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
-  if FUNC_NUM == 1:
+  if FUNC_NUM == 2:
     with open("./files/shoulder_left.txt", mode="w") as f:
       f.write(str(dist_mode))
-  elif FUNC_NUM == 2:
+  elif FUNC_NUM == 3:
     with open("./files/waist_left.txt", mode="w") as f:
       f.write(str(dist_mode))
-  elif FUNC_NUM == 3:
+  elif FUNC_NUM == 4:
     waist_front(dist_mode)
   else:
     with open("./files/left.txt", mode="w") as f:
@@ -121,13 +124,13 @@ def dist_right_mode():
     dist_cm = int(round(d) / 10.0) 
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
-  if FUNC_NUM == 1:
+  if FUNC_NUM == 2:
     with open("./files/shoulder_right.txt", mode="w") as f:
       f.write(str(dist_mode))
-  elif FUNC_NUM == 2:
+  elif FUNC_NUM == 3:
     with open("./files/waist_right.txt", mode="w") as f:
       f.write(str(dist_mode))
-  elif FUNC_NUM == 3:
+  elif FUNC_NUM == 4:
     waist_front(dist_mode)
   else:
     with open("./files/right.txt", mode="w") as f:
