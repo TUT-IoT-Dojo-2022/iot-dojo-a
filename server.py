@@ -91,7 +91,7 @@ def inseam_mode():
 
   return jsonify(result_dist)
 
-#側面（左）の距離センサーの値を取得し，関数呼び出し（legs.txtで保存)
+#側面（左）の距離センサーの値を取得し，関数呼び出し
 @app.route("/left", methods=["POST"])
 def dist_left_mode():
   data = request.get_json(force=True)
@@ -115,6 +115,7 @@ def dist_left_mode():
   print("Left: " + str(dist_mode) + "cm")
   return jsonify(FUNC_NUM, dist_mode)
 
+#側面（右）の距離センサーの値を取得し，関数呼び出し
 @app.route("/right", methods=["POST"])
 def dist_right_mode():
   data = request.get_json(force=True)
@@ -274,7 +275,7 @@ def clothDiffCorrect(L):
         labels = dist.argmin(axis = 1)
         return labels
 
-  with open ("./files/k-means.txt") as f:
+  with open ("./files/clothes1.txt") as f:
       for i in f:
           i = int(i)
           data.append(i)
