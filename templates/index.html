@@ -9,7 +9,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
 
-    <style type="text/css">
+    <link rel="stylesheet" href="./assets/css/measuring_latest.css">
+
+    <title>human</title>
+</head>
+<body>
+    <style>
+
     body {
         margin: 0;
         background-color: #fffff0;
@@ -24,6 +30,9 @@
         margin-top: 20px;
         margin-left: 20px;
     }
+    .annotation {
+        margin-left: 10px;
+    }
     .container {
         display: flex;
         width: 100vh;
@@ -32,7 +41,7 @@
     .measure_result {
         position: relative;
         flex-shrink: 0;
-        width: 700px;
+        width: 670px;
         height: 400px;
         font-size: 27px;
         color: #222;
@@ -94,52 +103,71 @@
         font-size: 20px;
         text-decoration: none;
     }
-    #raw-kata-a-js,
-    #raw-kata-b-js {
-        font-size: 25px;
-        
+    .raw_num {
+        font-size: 25px;   
+        color: royalblue;
     }
-
     .waist_show {
-        margin-left: 70px;
+        margin-left: 20px;
         position: relative;
         flex-shrink: 0;
-        width: 500px;
+        width: 550px;
         height: 400px;
         font-size: 27px;
         color: #222;
         font-weight: bold;
-        transform: translateY(-30px);
     }
     .waist_img {
-        width: 470px;
+        width: 500px;
         height: auto;
         background-color: transparent;
+        transform: translateY(-100px);
     }
     .a-len {
         position: absolute;
-        top: 20%;
-        left: 24%;
+        top: 10%;
+        left: 0%;
     }
     .b-len {
         position: absolute;
-        top: 10%;
-        left: 51%;
+        top: -14%;
+        left: 53%;
     }
-    .calculation {
+    .c-len {
         position: absolute;
-        top: 75%;
-        left: 45%;
+        top: 10%;
+        left: 75%;
+    }
+    .d-len {
+        position: absolute;
+        top: 53%;
+        left: 25%;
+    }
+    .radius-x {
+        position: absolute;
+        top: 74%;
+        font-weight: bold;
+    }
+    #radius-x-js,
+    #radius-y-js {
+        margin-left: 10px;
+        font-weight: bold;
+        font-size: 30px;
+    }
+    .radius-y {
+        position: absolute;
+        top: 85%;
+        font-weight: bold;
     }
     .calc_img {
         position: absolute;
         width: 420px;
         height: auto;
-        top: 80%;
+        top: 90%;
         left: 5%;
     }
     .accuracy {
-        margin: 30px;
+        margin: 20px;
         padding: 0;
         padding-left: 10px;
         font-size: 27px;
@@ -152,99 +180,108 @@
     }
     </style>
 
-    <title>human</title>
-</head>
-<body>
-        <h1>計測結果</h1>
+    <h1>〇計測結果</h1>
+    <p class="annotation">※本デモンストレーションは、対象者を男性に限る</p>
     <div class="container">
         <div class="measure_result">
-            <img class="result_img" src="https://raw.githubusercontent.com/TUT-IoT-Dojo-2022/iot-dojo-a/main/templates/human.png" alt="">
+            <img class="result_img" src="./assets/images/human.png" alt="">
             <p class="line line-height">------------</p>
             <p class="height">身長: <span class="result" id="height-js">--</span><br>
-            <span class="raw">未加工データ: <span id="raw-height-js">--</span></span></p>
+            <span class="raw">( 更衣室の高さ － <span class="raw_num" id="raw-height-js">--</span> )</p>
             <p class="line line-kata">----------</p>
             <p class="kata">肩幅: <span class="result" id="kata-js">--</span><br>
-            <span class="raw"> 未加工データ: 左&nbsp;<span id="raw-kata-a-js">--</span>&nbsp;右&nbsp;<span id="raw-kata-b-js">--</span></span></p>
+            <span class="raw">( 更衣室の幅 －  <span class="raw_num" id="raw-kata-a-js">--</span> － <span class="raw_num" id="raw-kata-b-js">--</span></span> )</p>
             <p class="line line-waist">----------</p>
             <p class="waist">ウエスト: <span class="result" id="waist-js">--</span></p>
             <p class="line line-mata">----------</p>
             <p class="mata">股下: <span class="result" id="mata-js">--</span><br>
-            <span class="raw"> 未加工データ: <span id="raw-mata-js">--</span></span></p>
+            <span class="raw"> 未加工データ: <span class="raw_num" id="raw-mata-js">--</span></span></p>
         </div>
 
         <div class="waist_show">
-            <img class="waist_img" src="https://raw.githubusercontent.com/TUT-IoT-Dojo-2022/iot-dojo-a/main/templates/waist_show.png" alt="">   
+            <img class="waist_img" src="./assets/images/waist_show.png" alt="">   
             <p class="a-len">a = <span id="a-len-js">--</span></p> 
             <p class="b-len">b = <span id="b-len-js">--</span></p> 
-
-            <img class="calc_img" src="https://raw.githubusercontent.com/TUT-IoT-Dojo-2022/iot-dojo-a/main/templates/calculation.png" alt="">
+            <p class="c-len">c = <span id="c-len-js">--</span></p> 
+            <p class="d-len">d = <span id="d-len-js">--</span></p> 
+            <p class="radius-x">短(長)半径 = ( a + c ) / 2 = <span id="radius-x-js">--</span></p>
+            <p class="radius-y">短(長)半径 = ( b + d ) / 2 = <span id="radius-y-js">--</span></p> 
+            <!-- <img class="calc_img" src="./assets/images/calculation.png" alt=""> -->
         </div>
     </div>
 
     <div class="accuracy">
+        <h3>〇計測の精度 (計測値 - 実測値)</h3>
         <p>
-            <h4>計測の精度</h3>
             身長: <span class="result_accu" id="height-accuracy">--</span>&emsp;    
             肩幅: <span class="result_accu" id="kata-accuracy">--</span>&emsp;
             ウエスト: <span class="result_accu" id="waist-accuracy">--</span>&emsp;   
             股下: <span class="result_accu" id="mata-accuracy">--</span>    
         </p>
     </div>
-
+    
     <script>
-      //Flaskからデータを取得 
-      let list_data = {{ data | tojson }};
+        //Flaskからデータを取得 
+        let list_data = {{ data | tojson }};;
 
-      // 実測値(予め測った固定値 / 鈴木君)
-      const HEIGHT = 183;
-      const KATA = 46;
-      const WAIST = 73;
-      const MATA = 82;
-      // 計測結果
-      const $height = document.querySelector("#height-js");
-      const $kata = document.querySelector("#kata-js");
-      const $waist = document.querySelector("#waist-js");
-      const $mata = document.querySelector("#mata-js");
-      // 生のデータ
-      const $raw_height = document.querySelector("#raw-height-js");
-      const $raw_kata_a = document.querySelector("#raw-kata-a-js");
-      const $raw_kata_b = document.querySelector("#raw-kata-b-js");
-      const $raw_mata = document.querySelector("#raw-mata-js");
-      // ウエストの計算過程
-      const $waist_a = document.querySelector("#a-len-js");
-      const $waist_b = document.querySelector("#b-len-js");
-      // 計測の精度
-      const $height_accu = document.querySelector("#height-accuracy");
-      const $kata_accu = document.querySelector("#kata-accuracy");
-      const $waist_accu = document.querySelector("#waist-accuracy");
-      const $mata_accu = document.querySelector("#mata-accuracy");
-      
-      // 計測結果DOM
-      const measures = [ $height, $kata, $waist, $mata, 
-                        $raw_height, $raw_kata_a, $raw_kata_b, $raw_mata,
-                        $waist_a, $waist_b ];
-      // 精度データDOM
-      const accuracies = [ $height_accu, $kata_accu, $waist_accu, $mata_accu ];
+        // 実測値(予め測った固定値)
+        const HEIGHT = 180;
+        const KATA = 43;
+        const WAIST = 78;
+        const MATA = 93;
+        // 計測結果
+        const $height = document.querySelector("#height-js");
+        const $kata = document.querySelector("#kata-js");
+        const $waist = document.querySelector("#waist-js");
+        const $mata = document.querySelector("#mata-js");
+        // 生のデータ
+        const $raw_height = document.querySelector("#raw-height-js");
+        const $raw_kata_a = document.querySelector("#raw-kata-a-js");
+        const $raw_kata_b = document.querySelector("#raw-kata-b-js");
+        const $raw_mata = document.querySelector("#raw-mata-js");
+        // ウエストの計算過程
+        const $waist_a = document.querySelector("#a-len-js");
+        const $waist_b = document.querySelector("#b-len-js");
+        const $waist_c = document.querySelector("#c-len-js");
+        const $waist_d = document.querySelector("#d-len-js");
+        const $radius_x = document.querySelector("#radius-x-js") 
+        const $radius_y = document.querySelector("#radius-y-js") 
+        // 計測の精度
+        const $height_accu = document.querySelector("#heiaght-accuracy");
+        const $kata_accu = document.querySelector("#kata-accuracy");
+        const $waist_accu = document.querySelector("#waist-accuracy");
+        const $mata_accu = document.querySelector("#mata-accuracy");
+        
+        // 計測結果DOM
+        const measures = [ $height, $kata, $waist, $mata, 
+                          $raw_height, $raw_kata_a, $raw_kata_b, $raw_mata,
+                          $waist_a, $waist_b, $waist_c, $waist_d ];
+        // 精度データDOM
+        const accuracies = [ $height_accu, $kata_accu, $waist_accu, $mata_accu ];
 
-      // 計測の精度
-      const accu_data = [
-          list_data[0] - HEIGHT, 
-          list_data[1] - KATA,
-          list_data[2] - WAIST,
-          list_data[3] - MATA
-      ];
-      
+        // 計測の精度
+        const accu_data = [
+            list_data_test[0] -  HEIGHT, 
+            list_data_test[1] - KATA,
+            list_data_test[2] - WAIST,
+            list_data_test[3] - MATA
+        ];
 
-      let idx = 0 ;
-      measures.forEach( ( el, idx ) => {
-          el.textContent = list_data[idx] + "cm";
-      });
+        const huku = list_data_test[-1];
+        
+        measures.forEach( ( el, idx ) => {
+            el.textContent = list_data_test[idx] + "cm";
+        });
 
-      accuracies.forEach( ( el, idx ) => {
-          el.textContent = accu_data[idx] + "cm";
-      })
+        $radius_x.textContent = Math.round((Number(list_data_test[8]) + Number(list_data_test[10])) / 2) + "cm";
+        $radius_y.textContent = Math.round((Number(list_data_test[9]) + Number(list_data_test[11])) / 2) + "cm";
 
-  </script>
+
+        accuracies.forEach( ( el, idx ) => {
+            el.textContent = accu_data[idx] + "cm";
+        })
+
+    </script>
 
 </body>
 </html>
