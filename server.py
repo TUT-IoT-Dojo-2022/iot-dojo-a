@@ -69,7 +69,7 @@ def height_mode():
       f.write(str(result_dist))
   else:
     print("Height Skip")
-  return jsonify(result_dist)
+  return jsonify()
 
 #距離センサーの値を取得し，股下の計算（legs.txtで保存)
 @app.route("/legs", methods=["POST"])
