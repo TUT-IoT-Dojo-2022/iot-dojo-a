@@ -5,9 +5,14 @@
         <meta charset="utf-8"/>
     </head>
     <body>
-        <h2>{{ data_ }}</h2>
+        <style>
+            input[type="submit"] {
+                font-size: 25px;
+                margin: 100px 100px;
+            }
+        </style>
         <form action="/get_height" method="post">
-            <input type="radio" name="get_height" value="1" /><br/>
+            <input checked type="radio" name="get_height" value="1" /><br/>
             <input type="submit" value="送信/肩の計測へ">
         </form>
     </body>

@@ -90,7 +90,7 @@ def getWaistFront():
 # 終了値のFUNC_NUMをpost取得
 @app.route('/get_end', methods=['post'])
 def getEnd():
-    FUNC_NUM = request.form.get['get_end'] # FUNC_NUM = 5 終了
+    FUNC_NUM = request.form['get_end'] # FUNC_NUM = 5 終了
 
 #距離センサーの値を取得し，身長の計算（height.txtで保存)
 @app.route("/head", methods=["POST"])
