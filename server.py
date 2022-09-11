@@ -52,6 +52,46 @@ def web_view():
     waist_a = waist_b = waist_c = waist_d = " -- "
   return render_template("index.html", data=[height,shoulder,waist,legs,height,raw_kata_a,raw_kata_b,str(int(legs)-inseam_fix),waist_a,waist_b,waist_c,waist_d])
 
+# 服の大きさを取得するFORMを描画
+@app.route('/home', methods=['POST'])
+def clothes_form():
+    return render_template('get_clothes.html')
+
+# 服の大きさをpost取得 & get_heightの描画
+@app.route('/get_clothes', methods=['post'])
+def getClothes():                            # 受け取るであろう期待値
+    getClothes = request.form['get_clothes'] # getClothes = 1 | 2 | 3
+    return render_template('get_height.html')
+
+# 身長のFUNC_NUMをpost取得 & get_kataの描画
+@app.route('/get_height', methods=['post'])
+def getHeight():
+    getHeight = request.form['get_height'] # getHeight = 1
+    return render_template('get_kata.html')
+
+# 肩のFUNC_NUMをpost取得 & get_waist_sideの描画
+@app.route('/get_kata', methods=['post'])
+def getKata():
+    getKata = request.form['get_kata'] # getKata = 2
+    return render_template('get_waist_side.html')
+
+# ウエスト側面のFUNC_NUMをpost取得 & get_waist_frontの描画
+@app.route('/get_waist_side', methods=['post'])
+def getWaistSide():
+    getWaistSide = request.form['get_waist_side'] # getWaistSide = 3
+    return render_template('get_waist_front.html')
+
+# ウエスト前面のFUNC_NUMをpost取得 & get_endの描画
+@app.route('/get_waist_front', methods=['post'])
+def getWaistFront():
+    getWaistFront = request.form['get_waist_front'] # getWaistFront = 4
+    return render_template('get_end.html')
+    
+# 終了値のFUNC_NUMをpost取得
+@app.route('/get_end', methods=['post'])
+def getEnd():
+    getEnd = request.form.get['get_end'] # getEnd = 5 終了
+
 #距離センサーの値を取得し，身長の計算（height.txtで保存)
 @app.route("/head", methods=["POST"])
 def height_mode():
