@@ -315,10 +315,15 @@ def clothDiffCorrect(L):
         labels = dist.argmin(axis = 1)
         return labels
 
-  with open ("./files/clothes1.txt") as f:
+#もし動かないとき消去する
+  with open ("./files/k-means.txt") as f:
       for i in f:
           i = int(i)
           data.append(i)
+
+  #テキストファイルが読み込まれず、動かない場合
+  #data = [10, 10, 18, 16, 14, 13, 19, 16, 14, 16, 12, 14, 12, 26, 22, 20, 20, 26, 24, 24, 12, 3, 16, 16, 7, 10 , 10, 10, 15, 15, 10, 13, 16, 28, 28, 20, 14, 20, 22, 12, 14, 11, 8, 10, 8, 2, 10, 12, 6, 18, 4, 14, 6, 9, 9, 32, 22, 14, 14, 18]
+
   data.sort()
   for i, n in enumerate(data,0):
       data_lst_1 = [i, n]
