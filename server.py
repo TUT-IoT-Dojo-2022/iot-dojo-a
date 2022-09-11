@@ -53,27 +53,27 @@ def web_view():
   return render_template("index.html", data=[height,shoulder,waist,legs,height,raw_kata_a,raw_kata_b,str(int(legs)-inseam_fix),waist_a,waist_b,waist_c,waist_d])
 
 # 服の大きさを取得するFORMを描画
-@app.route('/home', methods=['POST'])
+@app.route('/home')
 def clothes_form():
     return render_template('get_clothes.html')
 
 # 服の大きさをpost取得 & get_heightの描画
 @app.route('/get_clothes', methods=['post'])
-def getClothes():                            # 受け取るであろう期待値
+def getClothes():                            
     getClothes = request.form['get_clothes'] # getClothes = 1 | 2 | 3
-    return render_template('get_height.html')
+    return render_template('get_height.html', data_=getClothes)
 
 # 身長のFUNC_NUMをpost取得 & get_kataの描画
 @app.route('/get_height', methods=['post'])
 def getHeight():
     getHeight = request.form['get_height'] # getHeight = 1
-    return render_template('get_kata.html')
+    return render_template('get_kata.html', data_=getHeight)
 
 # 肩のFUNC_NUMをpost取得 & get_waist_sideの描画
 @app.route('/get_kata', methods=['post'])
 def getKata():
     getKata = request.form['get_kata'] # getKata = 2
-    return render_template('get_waist_side.html')
+    return render_template('get_waist_side.html', data_=getKata)
 
 # ウエスト側面のFUNC_NUMをpost取得 & get_waist_frontの描画
 @app.route('/get_waist_side', methods=['post'])
