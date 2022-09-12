@@ -55,42 +55,57 @@ def web_view():
 # 以下、服のSIZE及びFUNC_NUMの受取
 @app.route('/home')
 def clothes_form():
-    return render_template('get_clothes.html')
+  return render_template('get_clothes.html')
 
 # 服の大きさをpost取得 & get_heightの描画
 @app.route('/get_clothes', methods=['post'])
-def getClothes():                            
-    FUNC_NUM = request.form['get_clothes'] # FUNC_NUM = 1 | 2 | 3
-    return render_template('get_height.html')
+def getClothes():
+  global SIZE
+  global FUNC_NUM
+  SIZE = int(request.form['get_clothes']) # FUNC_NUM = 1 | 2 | 3
+  FUNC_NUM = 0
+  print("SIZE : " + str(SIZE))
+  return render_template('get_height.html')
 
 # 身長のFUNC_NUMをpost取得 & get_kataの描画
 @app.route('/get_height', methods=['post'])
 def getHeight():
-    FUNC_NUM = request.form['get_height'] # FUNC_NUM = 1
-    return render_template('get_kata.html')
+  global FUNC_NUM
+  FUNC_NUM = int(request.form['get_height']) # FUNC_NUM = 1
+  print("FUNC_NUM : " + str(FUNC_NUM))
+  return render_template('get_kata.html')
 
 # 肩のFUNC_NUMをpost取得 & get_waist_sideの描画
 @app.route('/get_kata', methods=['post'])
 def getKata():
-    FUNC_NUM = request.form['get_kata'] # FUNC_NUM = 2
-    return render_template('get_waist_side.html')
+  global FUNC_NUM
+  FUNC_NUM = int(request.form['get_kata']) # FUNC_NUM = 2
+  print("FUNC_NUM : " + str(FUNC_NUM))
+  return render_template('get_waist_side.html')
 
 # ウエスト側面のFUNC_NUMをpost取得 & get_waist_frontの描画
 @app.route('/get_waist_side', methods=['post'])
 def getWaistSide():
-    FUNC_NUM = request.form['get_waist_side'] # FUNC_NUM = 3
-    return render_template('get_waist_front.html')
+  global FUNC_NUM
+  FUNC_NUM = int(request.form['get_waist_side']) # FUNC_NUM = 3
+  print("FUNC_NUM : " + str(FUNC_NUM))
+  return render_template('get_waist_front.html')
 
 # ウエスト前面のFUNC_NUMをpost取得 & get_endの描画
 @app.route('/get_waist_front', methods=['post'])
 def getWaistFront():
-    FUNC_NUM = request.form['get_waist_front'] # FUNC_NUM = 4
-    return render_template('get_end.html')
+  global FUNC_NUM
+  FUNC_NUM = int(request.form['get_waist_front']) # FUNC_NUM = 4
+  print("FUNC_NUM : " + str(FUNC_NUM))
+  return render_template('get_end.html')
     
 # 終了値のFUNC_NUMをpost取得
 @app.route('/get_end', methods=['post'])
 def getEnd():
-    FUNC_NUM = request.form['get_end'] # FUNC_NUM = 5 終了
+  global FUNC_NUM
+  FUNC_NUM = int(request.form['get_end']) # FUNC_NUM = 5 終了
+  print("FUNC_NUM : " + str(FUNC_NUM))
+  return web_view()
 
 #距離センサーの値を取得し，身長の計算（height.txtで保存)
 @app.route("/head", methods=["POST"])
