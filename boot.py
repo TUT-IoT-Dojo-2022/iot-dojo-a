@@ -17,7 +17,7 @@ i2c = SoftI2C(scl=Pin(I2C_SCL_PIN), sda=Pin(I2C_SDA_PIN))
 distance = VL53L1X(i2c)
 
 def send():
-    url = 'http://192.168.2.100:5000/left'
+    url = 'http://192.168.2.100:5000/legs'
     dist_data = []
     count = 0
     while count < 100:
