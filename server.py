@@ -26,6 +26,7 @@ def web_view():
   except:
     legs = " -- "
   try:
+    shoulder_calc()
     with open("./files/shoulder.txt") as f:
       shoulder = int(f.read())
   except:
@@ -193,6 +194,15 @@ def dist_right_mode():
       f.write(str(dist_mode))
   print("Right: " + str(dist_mode) + "cm")
   return jsonify(FUNC_NUM, dist_mode)
+
+def shoulder_calc():
+  with open("./files/shoulder_left.txt") as f:
+    s_l = int(f.read())
+  with open("./files/shoulder_right.txt") as f:
+    s_r = int(f.read())
+  sld = room_yoko - (s_l + s_r)
+  with open("./files/shoulder.txt", mode="w") as f:
+      f.write(str(sld))
 
 #ウエストの値(円周)を計算し，返す
 #@app.route("/waist", methods=["POST"])
