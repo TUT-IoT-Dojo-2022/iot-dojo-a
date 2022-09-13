@@ -226,7 +226,7 @@ def waist_circle():
     r2 = (BOX_TATE - (L3 + L4)) / 2 #短径
     L = (math.pi * (r1 + r2)) * (1 + (3 * math.pow((r1 - r2) / (r1 + r2), 2)) / (10 + math.sqrt(4 - 3 * math.pow((r1 - r2) / (r1 + r2), 2))))
     with open("./files/waist.txt", mode="w") as f:
-      f.write(str(L - 80))
+      f.write(str(L))
   except:
     L = None
   return L
@@ -372,13 +372,13 @@ def clothDiffCorrect(L):
   over = round(ave_lst[2])
   if SIZE == 1:
       CLOTHES_FIX = pittari
-      L = L - pittari
+      L = L + pittari
   elif SIZE == 2:
       CLOTHES_FIX = nomal
-      L = L - nomal
+      L = L + nomal
   elif SIZE == 3:
       CLOTHES_FIX = over
-      L = L - over
+      L = L + over
   return L
 
 #着衣と素肌の差を測ってファイル保存（上着なし）
