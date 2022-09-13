@@ -34,6 +34,7 @@ def web_view():
   except:
     shoulder = " -- "
   try:
+    waist_circle()
     with open("./files/waist.txt") as f:
       waist = int(float(f.read()))
   except:
