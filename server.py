@@ -6,7 +6,7 @@ from flask import Flask, request, render_template, jsonify
 BOX_HEIGHT = 194 #高さ
 BOX_YOKO = 115 #測定する場所の横幅
 BOX_TATE = 115 #測定する場所の奥行
-INSEAM_FIX = 50 #股下の補正値
+INSEAM_FIX = 60 #股下の補正値
 CLOTHES_FIX = 0 #服の補正値
 SIZE = 2 #ぴちぴち:1 / ちょうどいい:2 / オーバー：3
 FUNC_NUM = 0 #初期値:0 / 身長・股下の終了時:1 / 肩幅開始時:2 / ウエスト左右開始時:3 / ウエスト前後開始時:4 / 測定終了時:5
@@ -52,7 +52,7 @@ def web_view():
       waist_a = waist_b = waist_c = waist_d  = int(float(f.read()))
   except:
     waist_a = waist_b = waist_c = waist_d = " -- "
-  return render_template("index.html", data=[height,shoulder,waist,legs,height,raw_kata_a,raw_kata_b,str(int(legs)-INSEAM_FIX),waist_a,waist_b,waist_c,waist_d,CLOTHES_FIX])
+  return render_template("index.html", data=[height,shoulder,waist,legs,(BOX_HEIGHT-height),raw_kata_a,raw_kata_b,str(int(legs)-INSEAM_FIX),waist_a,waist_b,waist_c,waist_d,CLOTHES_FIX])
 
 # 以下、服のSIZE及びFUNC_NUMの受取
 @app.route('/home')
