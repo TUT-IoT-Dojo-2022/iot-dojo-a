@@ -259,20 +259,20 @@
 
         // 計測の精度
         const accu_data = [
-            list_data_test[0] -  HEIGHT, 
-            list_data_test[1] - KATA,
-            list_data_test[2] - WAIST,
-            list_data_test[3] - MATA
+            list_data[0] -  HEIGHT, 
+            list_data[1] - KATA,
+            list_data[2] - WAIST,
+            list_data[3] - MATA
         ];
 
-        const huku = list_data_test[-1];
+        const huku = list_data[-1];
         
         measures.forEach( ( el, idx ) => {
-            el.textContent = list_data_test[idx] + "cm";
+            el.textContent = list_data[idx] + "cm";
         });
 
-        $radius_x.textContent = Math.round((Number(list_data_test[8]) + Number(list_data_test[10])) / 2) + "cm";
-        $radius_y.textContent = Math.round((Number(list_data_test[9]) + Number(list_data_test[11])) / 2) + "cm";
+        $radius_x.textContent = Math.round((Number(list_data[8]) + Number(list_data[10])) / 2) + "cm";
+        $radius_y.textContent = Math.round((Number(list_data[9]) + Number(list_data[11])) / 2) + "cm";
 
 
         accuracies.forEach( ( el, idx ) => {
