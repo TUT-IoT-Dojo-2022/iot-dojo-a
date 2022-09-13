@@ -245,7 +245,7 @@
         const $radius_x = document.querySelector("#radius-x-js") 
         const $radius_y = document.querySelector("#radius-y-js") 
         // 計測の精度
-        const $height_accu = document.querySelector("#heiaght-accuracy");
+        const $height_accu = document.querySelector("#height-accuracy");
         const $kata_accu = document.querySelector("#kata-accuracy");
         const $waist_accu = document.querySelector("#waist-accuracy");
         const $mata_accu = document.querySelector("#mata-accuracy");
@@ -270,7 +270,7 @@
         measures.forEach( ( el, idx ) => {
             el.textContent = list_data[idx] + "cm";
         });
-
+        console.log(list_data[8],list_data[9],list_data[10],list_data[11])
         $radius_x.textContent = Math.round((Number(list_data[8]) + Number(list_data[10])) / 2) + "cm";
         $radius_y.textContent = Math.round((Number(list_data[9]) + Number(list_data[11])) / 2) + "cm";
 
