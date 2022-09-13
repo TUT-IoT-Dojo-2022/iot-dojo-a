@@ -224,7 +224,8 @@ def waist_circle():
     #データの処理（円周の代表値を出す）
     r1 = (BOX_YOKO - (L1 + L2)) / 2 #長径
     r2 = (BOX_TATE - (L3 + L4)) / 2 #短径
-    L = (math.pi * (r1 + r2)) * (1 + (3 * math.pow((r1 - r2) / (r1 + r2), 2)) / (10 + math.sqrt(4 - 3 * math.pow((r1 - r2) / (r1 + r2), 2))))
+    L_x = 3 * math.pow((r1 - r2) / (r1 + r2), 2)
+    L = (math.pi * (r1 + r2)) * (1 + (L_x / (10 + math.sqrt(4 - L_x))))
     with open("./files/waist.txt", mode="w") as f:
       f.write(str(L))
   except:
@@ -250,7 +251,7 @@ def waist_front(dist):
   return jsonify(L)
 
 #ウエストの値を取得し，保存
-def waist_back(ｄist):
+def waist_back(dist):
   dist_mode = dist
   print("Waist Back: " + str(dist_mode) + "cm")
   with open("./files/waist_back.txt", mode="w") as f:
