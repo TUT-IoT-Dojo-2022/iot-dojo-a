@@ -9,15 +9,13 @@ from vl53l1x import VL53L1X
 
 SSID_NAME = "iot-dojo"
 SSID_PASS = "6a5jxurvjxha"
-I2C_SCL_PIN = 22
-I2C_SDA_PIN = 21
 p5 = Pin(5,Pin.OUT)
 p5.on()
-i2c = SoftI2C(scl=Pin(I2C_SCL_PIN), sda=Pin(I2C_SDA_PIN))
+i2c = SoftI2C(scl=Pin(22), sda=Pin(21))
 distance = VL53L1X(i2c)
 
 def send():
-    url = 'http://192.168.2.100:5000/legs'
+    url = 'http://192.168.2.100:5000/left'
     dist_data = []
     count = 0
     while count < 100:
@@ -68,6 +66,7 @@ def connect_wifi(ssid, passkey, timeout=10):
 
 if __name__ == '__main__':
     wifi_dojo = connect_wifi(SSID_NAME, SSID_PASS)
+    time.sleep(0.5)
     while True:
         send()
-        time.sleep(1)
+        time.sleep(0.5)
