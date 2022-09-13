@@ -4,8 +4,8 @@ import numpy as np
 from flask import Flask, request, render_template, jsonify
 
 room_height = 194
-room_yoko = 110 #測定する場所の横幅
-room_tate = 110 #測定する場所の奥行
+room_yoko = 115 #測定する場所の横幅
+room_tate = 115 #測定する場所の奥行
 inseam_fix = 50
 SIZE = 2 #ぴちぴち:1 / ちょうどいい:2 / オーバー：3
 FUNC_NUM = 0 #初期値:0 / 身長・股下の終了時:1 / 肩幅開始時:2 / ウエスト左右開始時:3 / ウエスト前後開始時:4 / 測定終了時:5
@@ -26,9 +26,7 @@ def web_view():
   except:
     legs = " -- "
   try:
-    shoulder_calc()
-    with open("./files/shoulder.txt") as f:
-      shoulder = int(f.read())
+      shoulder = shoulder_calc()
   except:
     shoulder = " -- "
   try:
