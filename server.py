@@ -195,7 +195,7 @@ def dist_right_mode():
     with open("./files/waist_right.txt", mode="w") as f:
       f.write(str(dist_mode))
   elif FUNC_NUM == 4:
-    waist_front(dist_mode)
+    waist_back(dist_mode)
   else:
     with open("./files/right.txt", mode="w") as f:
       f.write(str(dist_mode))
