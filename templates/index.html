@@ -266,14 +266,14 @@
         ];
 
         const huku = list_data[-1];
-        
+        console.log(huku)
+
         measures.forEach( ( el, idx ) => {
             el.textContent = list_data[idx] + "cm";
         });
-        console.log(list_data[8],list_data[9],list_data[10],list_data[11])
+
         $radius_x.textContent = Math.round((Number(list_data[8]) + Number(list_data[10])) / 2) + "cm";
         $radius_y.textContent = Math.round((Number(list_data[9]) + Number(list_data[11])) / 2) + "cm";
-
 
         accuracies.forEach( ( el, idx ) => {
             el.textContent = accu_data[idx] + "cm";
