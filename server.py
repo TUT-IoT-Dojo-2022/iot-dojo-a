@@ -26,7 +26,9 @@ def web_view():
   except:
     legs = " -- "
   try:
-      shoulder = shoulder_calc()
+    shoulder_calc()
+    with open("./files/shoulder.txt") as f:
+      shoulder = int(f.read())
   except:
     shoulder = " -- "
   try:
