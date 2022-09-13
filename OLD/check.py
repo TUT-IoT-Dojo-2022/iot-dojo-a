@@ -5,7 +5,7 @@ import random
 
 def send(n):
     n = 0
-    url = ['http://localhost:5000/head', 'http://localhost:5000/legs', 'http://localhost:5000/left', 'http://localhost:5000/right']    
+    url = ['http://192.168.2.100:5000/head', 'http://192.168.2.100:5000/legs', 'http://192.168.2.100:5000/left', 'http://192.168.2.100:5000/right']    
     while True:
         to_sv = url[n]
         dist_data = []
