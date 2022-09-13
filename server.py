@@ -1,3 +1,4 @@
+from dis import dis
 import math
 import statistics
 import numpy as np
@@ -137,6 +138,7 @@ def height_mode():
 #距離センサーの値を取得し，股下の計算（legs.txtで保存)
 @app.route("/legs", methods=["POST"])
 def inseam_mode():
+  global INSEAM_FIX
   data = request.get_json(force=True)
   distance = data['distance']
   dist_db = []
@@ -144,6 +146,14 @@ def inseam_mode():
     dist_cm = int(round(d) / 10.0) 
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
+  if dist_mode < 10:
+    INSEAM_FIX = 65
+  elif dist_mode > 60:
+    INSEAM_FIX = 20
+  elif dist_mode > 90:
+    INSEAM_FIX = 0
+  else:
+    INSEAM_FIX = 50
   result_dist = dist_mode + INSEAM_FIX
   if FUNC_NUM < 1:
     print("Inseam: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
@@ -151,7 +161,6 @@ def inseam_mode():
       f.write(str(result_dist))
   else:
     print("Inseam Skip")
-
   return jsonify(result_dist)
 
 #側面（左）の距離センサーの値を取得し，関数呼び出し
@@ -212,7 +221,6 @@ def shoulder_calc():
       f.write(str(sld))
 
 #ウエストの値(円周)を計算し，返す
-#@app.route("/waist", methods=["POST"])
 def waist_circle():
   try:
     with open("./files/waist_left.txt") as f:
@@ -230,10 +238,10 @@ def waist_circle():
     #データの処理（円周の代表値を出す）
     r1 = (BOX_YOKO - (L1 + L2)) / 2 #長径
     r2 = (BOX_TATE - (L3 + L4)) / 2 #短径
-    L_x = 3 * math.pow((r1 - r2) / (r1 + r2), 2)
+    L_x = 3 * math.pow(((r1 - r2) / (r1 + r2)), 2)
     L = (math.pi * (r1 + r2)) * (1 + (L_x / (10 + math.sqrt(4 - L_x))))
     with open("./files/waist.txt", mode="w") as f:
-      f.write(str(L))
+      f.write(str(round(L)))
   except:
     L = None
   return L
