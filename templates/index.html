@@ -223,10 +223,10 @@
         let list_data = {{ data | tojson }};;
 
         // 実測値(予め測った固定値)
-        const HEIGHT = 180;
-        const KATA = 43;
-        const WAIST = 78;
-        const MATA = 93;
+        const HEIGHT = 183;
+        const KATA = 46;
+        const WAIST = 73;
+        const MATA = 82;
         // 計測結果
         const $height = document.querySelector("#height-js");
         const $kata = document.querySelector("#kata-js");
@@ -259,7 +259,7 @@
 
         // 計測の精度
         const accu_data = [
-            list_data[0] -  HEIGHT, 
+            list_data[0] - HEIGHT, 
             list_data[1] - KATA,
             list_data[2] - WAIST,
             list_data[3] - MATA
