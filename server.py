@@ -2,6 +2,7 @@ from dis import dis
 import math
 import statistics
 import numpy as np
+from scipy.special import ellipe
 from flask import Flask, request, render_template, jsonify
 
 BOX_HEIGHT = 194 #高さ
@@ -239,8 +240,12 @@ def waist_circle():
     #データの処理（円周の代表値を出す）
     r1 = (BOX_YOKO - (L1 + L2)) / 2 #長径
     r2 = (BOX_TATE - (L3 + L4)) / 2 #短径
-    L_x = 3 * math.pow(((r1 - r2) / (r1 + r2)), 2)
-    L = (math.pi * (r1 + r2)) * (1 + (L_x / (10 + math.sqrt(4 - L_x))))
+    if r1 >= r2:
+      e = np.sqrt(r1 ** 2 - r2 ** 2) / r1
+      L = 4 * r1 * ellipe(e)
+    elif r2 > r1:
+      e = np.sqrt(r2 ** 2 - r1 ** 2) / r2
+      L = 4 * r2 * ellipe(e)
     with open("./files/waist.txt", mode="w") as f:
       f.write(str(round(L)))
   except:
