@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+data = []
 #k-meansを行うためのプログラム
 class KMeans_pp:
     def __init__(self, n_clusters, max_iter = 1000, random_seed = 0):
@@ -65,8 +66,16 @@ class KMeans_pp:
         labels = dist.argmin(axis = 1)
         return labels
 #用いるデータ
-data = [10, 10, 18, 16, 14, 13, 19, 16, 14, 16, 12, 14, 12, 26, 22, 20, 20, 26, 24, 24, 12, 3, 16, 16, 7, 10 , 10, 10, 15, 15, 10, 13, 16, 28, 28, 20, 14, 20, 22, 12, 14, 11, 8, 10, 8, 2, 10, 12, 6, 18, 4, 14, 6, 9, 9, 32, 22, 14, 14, 18]
+with open ("./files/k-means.txt") as f:
+    for i in f:
+        i = int(i)
+        data.append(i)
+#for i in data:
+#    print(i)
+#data = [10, 10, 18, 16, 14, 13, 19, 16, 14, 16, 12, 14, 12, 26, 22, 20, 20, 26, 24, 24, 12, 3, 16, 16, 7, 10 , 10, 10, 15, 15, 10, 13, 16, 28, 28, 20, 14, 20, 22, 12, 14, 11, 8, 10, 8, 2, 10, 12, 6, 18, 4, 14, 6, 9, 9, 32, 22, 14, 14, 18]
 data.sort()
+print(data)
+print(len(data))
 data_lst = []
 lst1 = []
 lst2 = []
@@ -84,7 +93,7 @@ atumi_data = np.array(data_lst)
 model =  KMeans_pp(3)
 model.fit(atumi_data)
 
-#print(model.labels_)
+print(model.labels_)
 
 #ラベルごとに平均を出す
 for i in range(len(data)):
@@ -107,9 +116,9 @@ pittari = round(ave_lst[0])
 nomal = round(ave_lst[1])
 over = round(ave_lst[2])
 
-#print(pittari)
-#print(nomal)
-#print(over)
+print(pittari)
+print(nomal)
+print(over)
 
 # クラスタリングの画像プロット
 markers = ["+", "*", "o", '+']
