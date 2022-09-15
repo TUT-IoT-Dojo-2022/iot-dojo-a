@@ -150,7 +150,7 @@ def inseam_mode():
   dist_mode = statistics.mode(dist_db)
   if dist_mode < 10:
     INSEAM_FIX = 70
-  elif dist_mode >= 90:
+  elif dist_mode >= 80:
     INSEAM_FIX = 0
   else:
     INSEAM_FIX = int((75 - dist_mode) / 10) * 10
