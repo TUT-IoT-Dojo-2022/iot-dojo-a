@@ -270,6 +270,7 @@
 
         measures.forEach( ( el, idx ) => {
             el.textContent = list_data[idx] + "cm";
+            console.log(el, list_data[idx]);
         });
 
         $radius_x.textContent = Math.round((109 - Number(list_data[8]) - Number(list_data[10])) / 2) + "cm";
@@ -277,6 +278,7 @@
 
         accuracies.forEach( ( el, idx ) => {
             el.textContent = accu_data[idx] + "cm";
+            console.log(el, list_data[idx]);
         })
 
     </script>
