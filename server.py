@@ -6,8 +6,8 @@ from scipy.special import ellipe
 from flask import Flask, request, render_template, jsonify
 
 BOX_HEIGHT = 194 #高さ
-BOX_YOKO = 115 #測定する場所の横幅
-BOX_TATE = 115 #測定する場所の奥行
+BOX_YOKO = 109 #測定する場所の横幅
+BOX_TATE = 109 #測定する場所の奥行
 INSEAM_FIX = 65 #股下の補正値
 CLOTHES_FIX = 0 #服の補正値
 SIZE = 1 #ぴちぴち:1 / ちょうどいい:2 / オーバー：3
