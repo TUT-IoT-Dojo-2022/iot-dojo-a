@@ -149,21 +149,11 @@ def inseam_mode():
     dist_db.append(dist_cm)
   dist_mode = statistics.mode(dist_db)
   if dist_mode < 10:
-    INSEAM_FIX = 65
-  elif dist_mode > 70:
-    INSEAM_FIX = 10
-  elif dist_mode > 60:
-    INSEAM_FIX = 20
-  elif dist_mode > 50:
-    INSEAM_FIX = 30
-  elif dist_mode > 40:
-    INSEAM_FIX = 40
-  elif dist_mode > 30:
-    INSEAM_FIX = 50
-  elif dist_mode > 20:
-    INSEAM_FIX = 60
-  else:
+    INSEAM_FIX = 70
+  elif dist_mode >= 90:
     INSEAM_FIX = 0
+  else:
+    INSEAM_FIX = int((75 - dist_mode) / 10) * 10
   result_dist = dist_mode + INSEAM_FIX
   if FUNC_NUM < 1:
     print("Inseam: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
