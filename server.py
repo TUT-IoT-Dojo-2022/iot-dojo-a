@@ -225,16 +225,16 @@ def waist_circle():
   try:
     with open("./files/waist_left.txt") as f:
       L1 = int(f.read())
-    L1 = clothDiffCorrect(L1)
+    #L1 = clothDiffCorrect(L1)
     with open("./files/waist_right.txt") as f:
       L2 = int(f.read())
-    L2 = clothDiffCorrect(L2)
+    #L2 = clothDiffCorrect(L2)
     with open("./files/waist_front.txt") as f:
       L3 = int(f.read())
-    L3 = clothDiffCorrect(L3)
+    #L3 = clothDiffCorrect(L3)
     with open("./files/waist_back.txt") as f:
       L4 = int(f.read())
-    L4 = clothDiffCorrect(L4)
+    #L4 = clothDiffCorrect(L4)
     #データの処理（円周の代表値を出す）
     r1 = (BOX_YOKO - (L1 + L2)) / 2 #長径
     r2 = (BOX_TATE - (L3 + L4)) / 2 #短径
