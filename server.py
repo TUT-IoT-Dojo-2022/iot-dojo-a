@@ -239,11 +239,13 @@ def waist_circle():
     r1 = (BOX_YOKO - (L1 + L2)) / 2 #長径
     r2 = (BOX_TATE - (L3 + L4)) / 2 #短径
     if r1 >= r2:
-      e = np.sqrt(r1 ** 2 - r2 ** 2) / r1
-      L = 4 * r1 * ellipe(e)
+      a1 = math.pi * (r1 + r2)
+      a2 = 1 + (3 * math.pow((r1 - r2) / (r1 + r2), 2) / (10 + math.sqrt(4 - 3 * math.pow((r1 - r2)/ (r1 + r2), 2))))
+      L = a1 * a2
     elif r2 > r1:
-      e = np.sqrt(r2 ** 2 - r1 ** 2) / r2
-      L = 4 * r2 * ellipe(e)
+      a1 = math.pi * (r2 + r1)
+      a2 = 1 + (3 * math.pow((r2 - r1) / (r2 + r1), 2) / (10 + math.sqrt(4 - 3 * math.pow((r2 - r1)/ (r2 + r1), 2))))
+      L = a1 * a2
     with open("./files/waist.txt", mode="w") as f:
       f.write(str(round(L)))
   except:
