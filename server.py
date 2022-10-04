@@ -1,9 +1,10 @@
 from dis import dis
 import math
-import statistics
+import statistics 
 import numpy as np
 from scipy.special import ellipe
 from flask import Flask, request, render_template, jsonify
+from statistics import mean
 
 BOX_HEIGHT = 194 #高さ
 BOX_YOKO = 109 #測定する場所の横幅
@@ -293,9 +294,17 @@ def clothDiffCorrect(L):
   global CLOTHES_FIX
   data = []
   data_lst = []
-  lst1 = []
-  lst2 = []
-  lst3 = []
+  lst_0 = []
+  lst_1 = []
+  lst_2 = []
+  lst_3 = []
+  lst_4 = []
+  lst_5 = []
+  lst_6 = []
+  lst_7 = []
+  lst_8 = []
+  lst_9 = []
+  ave_lst = []
   pittari = 0
   nomal = 0
   over = 0
@@ -359,33 +368,51 @@ def clothDiffCorrect(L):
       return labels
 
 #もし動かないとき消去する
-  with open ("./files/k-means.txt") as f:
+  with open ("./iot-dojo-a/files/k-means.txt") as f:
     for i in f:
       i = int(i)
       data.append(i)
-  #テキストファイルが読み込まれず、動かない場合
-  #data = [10, 10, 18, 16, 14, 13, 19, 16, 14, 16, 12, 14, 12, 26, 22, 20, 20, 26, 24, 24, 12, 3, 16, 16, 7, 10 , 10, 10, 15, 15, 10, 13, 16, 28, 28, 20, 14, 20, 22, 12, 14, 11, 8, 10, 8, 2, 10, 12, 6, 18, 4, 14, 6, 9, 9, 32, 22, 14, 14, 18]
   data.sort()
   for i, n in enumerate(data,0):
     data_lst_1 = [i, n]
     data_lst.append(data_lst_1)
   atumi_data = np.array(data_lst)
   #3つのクラスタに分けるモデルを作成
-  model =  KMeans_pp(3)
+  model =  KMeans_pp(10)
   model.fit(atumi_data)
   #ラベルごとに平均を出す
   for i in range(len(data)):
-    if model.labels_[i] == 2:
-      lst1.append(data[i])
-    elif model.labels_[i] == 1:
-      lst2.append(data[i])
-    elif model.labels_[i] == 0:
-      lst3.append(data[i]) 
-
-  lst1_ave = sum(lst1) / len(lst1)
-  lst2_ave = sum(lst2) / len(lst2)
-  lst3_ave = sum(lst3) / len(lst3)
-  ave_lst = [lst1_ave, lst2_ave, lst3_ave]#平均のリスト作成
+      if model.labels_[i] == 0:
+          lst_0.append(data[i])
+      elif model.labels_[i] == 1:
+          lst_1.append(data[i]) 
+      elif model.labels_[i] == 2:
+          lst_2.append(data[i]) 
+      elif model.labels_[i] == 3:
+          lst_3.append(data[i]) 
+      elif model.labels_[i] == 4:
+          lst_4.append(data[i]) 
+      elif model.labels_[i] == 5:
+          lst_5.append(data[i]) 
+      elif model.labels_[i] == 6:
+          lst_6.append(data[i])  
+      elif model.labels_[i] == 7:
+          lst_7.append(data[i]) 
+      elif model.labels_[i] == 8:
+          lst_8.append(data[i]) 
+      elif model.labels_[i] == 9:
+          lst_9.append(data[i])  
+  ave_0 = mean(lst_0)
+  ave_1 = mean(lst_1)
+  ave_2 = mean(lst_2)
+  ave_3 = mean(lst_3)
+  ave_4 = mean(lst_4)
+  ave_5 = mean(lst_5)
+  ave_6 = mean(lst_6)
+  ave_7 = mean(lst_7)
+  ave_8 = mean(lst_8)
+  ave_9 = mean(lst_9)
+  ave_lst = [ave_0, ave_1, ave_2, ave_3, ave_4, ave_5, ave_6, ave_7, ave_8, ave_9]
   ave_lst.sort()
   #クラスタリングの引く値の抽出
   pittari = round(ave_lst[0])
