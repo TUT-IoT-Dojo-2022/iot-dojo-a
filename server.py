@@ -228,10 +228,10 @@ def waist_circle():
   try:
     with open("./files/waist_left.txt") as f:
       L1 = int(f.read())
-      L1 = clothDiffCorrect(L1)
+      #L1 = clothDiffCorrect(L1)
     with open("./files/waist_right.txt") as f:
       L2 = int(f.read())
-      L2 = clothDiffCorrect(L2)
+      #L2 = clothDiffCorrect(L2)
     with open("./files/waist_front.txt") as f:
       L3 = int(f.read())
     #L3 = clothDiffCorrect(L3)
@@ -248,7 +248,7 @@ def waist_circle():
     elif r2 > r1:
       a1 = math.pi * (r2 + r1)
       a2 = 1 + (3 * math.pow((r2 - r1) / (r2 + r1), 2) / (10 + math.sqrt(4 - 3 * math.pow((r2 - r1)/ (r2 + r1), 2))))
-      L = a1 * a2
+      L = a1 * a2 - clothDiffCorrect()
     with open("./files/waist.txt", mode="w") as f:
       f.write(str(round(L)))
   except:
@@ -292,7 +292,7 @@ def waist_back(dist):
   return jsonify(L)
 
 #着衣と素肌の誤差を補正
-def clothDiffCorrect(L):
+def clothDiffCorrect():
   global CLOTHES_FIX
   data = []
   data_lst = []
@@ -420,11 +420,11 @@ def clothDiffCorrect(L):
   nomal = round(ave_lst[1])
   over = round(ave_lst[2])
   if SIZE == 1:
-      CLOTHES_FIX = pittari + L
+      CLOTHES_FIX = pittari
   elif SIZE == 2:
-      CLOTHES_FIX = nomal + L
+      CLOTHES_FIX = nomal 
   elif SIZE == 3:
-      CLOTHES_FIX = over + L
+      CLOTHES_FIX = over
   return CLOTHES_FIX
 
 #股下の補正
