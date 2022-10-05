@@ -420,11 +420,11 @@ def clothDiffCorrect(L):
   nomal = round(ave_lst[1])
   over = round(ave_lst[2])
   if SIZE == 1:
-      CLOTHES_FIX = pittari
+      CLOTHES_FIX = pittari + L
   elif SIZE == 2:
-      CLOTHES_FIX = nomal
+      CLOTHES_FIX = nomal + L
   elif SIZE == 3:
-      CLOTHES_FIX = over
+      CLOTHES_FIX = over + L
   return CLOTHES_FIX
 
 #股下の補正
