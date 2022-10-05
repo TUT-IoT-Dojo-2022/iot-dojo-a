@@ -429,7 +429,7 @@ def clothDiffCorrect(L):
 
 #股下の補正
 def BottomDiffCorrect():
-  global BOTTOMS_FIX
+  global BOTTOM_FIX
   data = []
   data_lst = []
   lst_0 = []
