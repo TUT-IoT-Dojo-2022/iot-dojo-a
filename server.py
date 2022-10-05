@@ -228,10 +228,10 @@ def waist_circle():
   try:
     with open("./files/waist_left.txt") as f:
       L1 = int(f.read())
-    #L1 = clothDiffCorrect(L1)
+      L1 = clothDiffCorrect(L1)
     with open("./files/waist_right.txt") as f:
       L2 = int(f.read())
-    #L2 = clothDiffCorrect(L2)
+      L2 = clothDiffCorrect(L2)
     with open("./files/waist_front.txt") as f:
       L3 = int(f.read())
     #L3 = clothDiffCorrect(L3)
@@ -253,7 +253,7 @@ def waist_circle():
       f.write(str(round(L)))
   except:
     L = None
-  return L - clothDiffCorrect()
+  return L
 
 #ウエストの値を計算し，保存
 def waist_front(dist):
