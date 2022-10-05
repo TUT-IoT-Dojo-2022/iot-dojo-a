@@ -11,6 +11,7 @@ BOX_YOKO = 109 #測定する場所の横幅
 BOX_TATE = 109 #測定する場所の奥行
 INSEAM_FIX = 65 #股下の補正値
 CLOTHES_FIX = 0 #服の補正値
+BOTTOMS_FIX = 0
 SIZE = 1 #ぴちぴち:1 / ちょうどいい:2 / オーバー：3
 FUNC_NUM = 0 #初期値:0 / 身長・股下の終了時:1 / 肩幅開始時:2 / ウエスト左右開始時:3 / ウエスト前後開始時:4 / 測定終了時:5
 CLOTHES_TYPE = 0 #上着なし:0 / 上着あり：1
@@ -75,6 +76,7 @@ def getClothes():
   global SIZE
   global FUNC_NUM
   SIZE = int(request.form['get_clothes']) # FUNC_NUM = 1 | 2 | 3
+  #bottom_size = int(request.form['get_clothes']) #FUNC_NUM = 1 | 2 | 3のズボンを入れて欲しいです。
   FUNC_NUM = 0
   print("SIZE : " + str(SIZE))
   return render_template('get_height.html')
@@ -155,7 +157,7 @@ def inseam_mode():
     INSEAM_FIX = 0
   else:
     INSEAM_FIX = int((75 - dist_mode) / 10) * 10
-  result_dist = dist_mode + INSEAM_FIX
+  result_dist = dist_mode + INSEAM_FIX + BottomDiffCorrect()
   if FUNC_NUM < 1:
     print("Inseam: " + str(dist_mode) + "cm(" + str(result_dist) + ")")
     with open("./files/legs.txt", mode="w") as f:
@@ -251,7 +253,7 @@ def waist_circle():
       f.write(str(round(L)))
   except:
     L = None
-  return L
+  return L - clothDiffCorrect()
 
 #ウエストの値を計算し，保存
 def waist_front(dist):
@@ -366,9 +368,8 @@ def clothDiffCorrect(L):
       dist = ((X[:, :, np.newaxis] - self.cluster_centers_.T[np.newaxis, :, :]) ** 2).sum(axis = 1)
       labels = dist.argmin(axis = 1)
       return labels
-
-#もし動かないとき消去する
-  with open ("./iot-dojo-a/files/k-means.txt") as f:
+    
+  with open ("./files/k-means.txt") as f:
     for i in f:
       i = int(i)
       data.append(i)
@@ -420,14 +421,118 @@ def clothDiffCorrect(L):
   over = round(ave_lst[2])
   if SIZE == 1:
       CLOTHES_FIX = pittari
-      L = L + pittari
   elif SIZE == 2:
       CLOTHES_FIX = nomal
-      L = L + nomal
   elif SIZE == 3:
       CLOTHES_FIX = over
-      L = L + over
-  return L
+  return CLOTHES_FIX
+
+#股下の補正
+def BottomDiffCorrect():
+  global BOTTOMS_FIX
+  data = []
+  data_lst = []
+  lst_0 = []
+  lst_1 = []
+  ave_lst = []
+  pittari = 0
+  over = 0
+  class KMeans_pp:
+    def __init__(self, n_clusters, max_iter = 1000, random_seed = 0):
+      self.n_clusters = n_clusters
+      self.max_iter = max_iter
+      self.random_state = np.random.RandomState(random_seed)
+
+    def fit(self, X):
+      #ランダムに最初のクラスタ点を決定
+      tmp = np.random.choice(np.array(range(X.shape[0])))
+      first_cluster = X[tmp]
+      first_cluster = first_cluster[np.newaxis,:]
+      #最初のクラスタ点とそれ以外のデータ点との距離の2乗を計算し、それぞれをその総和で割る
+      p = ((X - first_cluster)**2).sum(axis = 1) / ((X - first_cluster)**2).sum()
+      r =  np.random.choice(np.array(range(X.shape[0])), size = 1, replace = False, p = p)
+      first_cluster = np.r_[first_cluster ,X[r]]
+      #分割するクラスター数が3個以上の場合
+      if self.n_clusters >= 3:
+        #指定の数のクラスタ点を指定できるまで繰り返し
+        while first_cluster.shape[0] < self.n_clusters:
+          #各クラスター点と各データポイントとの距離の2乗を算出
+          dist_f = ((X[:, :, np.newaxis] - first_cluster.T[np.newaxis, :, :])**2).sum(axis = 1)
+          #最も距離の近いクラスター点はどれか導出
+          f_argmin = dist_f.argmin(axis = 1)
+          #最も距離の近いクラスター点と各データポイントとの距離の2乗を導出
+          for i in range(dist_f.shape[1]):
+            dist_f.T[i][f_argmin != i] = 0
+          #新しいクラスタ点を確率的に導出
+          pp = dist_f.sum(axis = 1) / dist_f.sum()
+          rr = np.random.choice(np.array(range(X.shape[0])), size = 1, replace = False, p = pp)
+          #新しいクラスター点を初期値として加える
+          first_cluster = np.r_[first_cluster ,X[rr]]        
+
+      #最初のラベルづけを行う
+      dist = (((X[:, :, np.newaxis] - first_cluster.T[np.newaxis, :, :]) ** 2).sum(axis = 1))
+      self.labels_ = dist.argmin(axis = 1)
+      labels_prev = np.zeros(X.shape[0])
+      count = 0
+      self.cluster_centers_ = np.zeros((self.n_clusters, X.shape[1]))
+      #各データポイントが属しているクラスターが変化しなくなった、又は一定回数の繰り返しを越した場合は終了
+      while (not (self.labels_ == labels_prev).all() and count < self.max_iter):
+        #その時点での各クラスターの重心を計算する
+        for i in range(self.n_clusters):
+          XX = X[self.labels_ == i, :]
+          self.cluster_centers_[i, :] = XX.mean(axis = 0)
+        #各データポイントと各クラスターの重心間の距離を総当たりで計算する
+        dist = ((X[:, :, np.newaxis] - self.cluster_centers_.T[np.newaxis, :, :]) ** 2).sum(axis = 1)
+        #1つ前のクラスターラベルを覚えておく。1つ前のラベルとラベルが変化しなければプログラムは終了する。
+        labels_prev = self.labels_
+        #再計算した結果、最も距離の近いクラスターのラベルを割り振る
+        self.labels_ = dist.argmin(axis = 1)
+        count += 1
+        self.count = count
+
+    def predict(self, X):
+      dist = ((X[:, :, np.newaxis] - self.cluster_centers_.T[np.newaxis, :, :]) ** 2).sum(axis = 1)
+      labels = dist.argmin(axis = 1)
+      return labels
+
+#もし動かないとき消去する
+  with open ("./files/b_k_means.txt") as f:
+    for i in f:
+      i = int(i)
+      data.append(i)
+  data.sort()
+  for i, n in enumerate(data,0):
+    data_lst_1 = [i, n]
+    data_lst.append(data_lst_1)
+  atumi_data = np.array(data_lst)
+  #3つのクラスタに分けるモデルを作成
+  model =  KMeans_pp(10)
+  model.fit(atumi_data)
+  #ラベルごとに平均を出す
+  for i in range(len(data)):
+      if model.labels_[i] == 0:
+          lst_0.append(data[i])
+      elif model.labels_[i] == 1:
+          lst_1.append(data[i])  
+  ave_0 = mean(lst_0)
+  ave_1 = mean(lst_1)
+  ave_lst = [ave_0, ave_1]
+  ave_lst.sort()
+  #クラスタリングの引く値の抽出
+  pittari = round(ave_lst[0])
+  over = round(ave_lst[1])
+  #webUIが完成したらいらない
+  clothing_size = int(input("1:ぴちぴちサイズ,2:オーバサイズから数字を1つ選んでください."))
+  if clothing_size == 1:
+    BOTTOM_FIX = pittari
+  elif clothing_size == 2:
+    BOTTOM_FIX = over
+  #修正する
+  # if bottom_size == 1:
+  #   return pittari
+  # elif bottom_size == 2:
+  #   return over 
+  return BOTTOM_FIX
 
 #着衣と素肌の差を測ってファイル保存（上着なし）
 @app.route("/clothes1", methods=["POST"])
