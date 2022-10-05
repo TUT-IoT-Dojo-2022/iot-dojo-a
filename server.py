@@ -519,19 +519,20 @@ def BottomDiffCorrect():
   ave_lst = [ave_0, ave_1]
   ave_lst.sort()
   #クラスタリングの引く値の抽出
-  pittari = round(ave_lst[0])
+  #pittari = round(ave_lst[0])
   over = round(ave_lst[1])
   #webUIが完成したらいらない
-  clothing_size = int(input("1:ぴちぴちサイズ,2:オーバサイズから数字を1つ選んでください."))
-  if clothing_size == 1:
-    BOTTOM_FIX = pittari
-  elif clothing_size == 2:
-    BOTTOM_FIX = over
+  #clothing_size = int(input("1:ぴちぴちサイズ,2:オーバサイズから数字を1つ選んでください."))
+  # if clothing_size == 1:
+  #   BOTTOM_FIX = pittari
+  # elif clothing_size == 2:
+  #   BOTTOM_FIX = over
   #修正する
   # if bottom_size == 1:
   #   return pittari
   # elif bottom_size == 2:
   #   return over 
+  BOTTOM_FIX = over
   return BOTTOM_FIX
 
 #着衣と素肌の差を測ってファイル保存（上着なし）
