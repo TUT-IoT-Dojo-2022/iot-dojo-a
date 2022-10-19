@@ -6,7 +6,7 @@ from scipy.special import ellipe
 from flask import Flask, request, render_template, jsonify
 from statistics import mean
 
-BOX_HEIGHT = 214 #高さ
+BOX_HEIGHT = 203 #高さ
 BOX_YOKO = 117 #測定する場所の横幅
 BOX_TATE = 109 #測定する場所の奥行
 INSEAM_FIX = 65 #股下の補正値
