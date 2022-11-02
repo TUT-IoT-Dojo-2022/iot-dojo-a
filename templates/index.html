@@ -40,10 +40,11 @@
         position: relative;
         flex-shrink: 0;
         width: 670px;
-        height: 400px;
+        height: 500px;
         font-size: 27px;
         color: #222;
         border-right: 3px solid;
+        margin-top: 100px;
     }
     .result_img {
         width: 400px;
@@ -56,42 +57,42 @@
     }
     .line-height {
         position: absolute;
-        top: -10%;
+        top: -7%;
         left: 34%;
     }
     .line-kata {
         position: absolute;
-        top: 12%;
+        top: 9%;
         left: 37%;
     }
     .line-waist {
         position: absolute;
-        top: 40%;
+        top: 30%;
         left: 36%;
     }
     .line-mata {
         position: absolute;
-        top: 60%;
+        top: 45%;
         left: 36%;
     }
     .height {
         position: absolute;
-        top: -12%;
+        top: -9%;
         left: 52%;
     }
     .kata {
         position: absolute;
-        top: 12%;
+        top: 9%;
         left: 52%;
     }
     .waist {
         position: absolute;
-        top: 39%;
+        top: 29%;
         left: 51%;
     }
     .mata {
         position: absolute;
-        top: 60%;
+        top: 43%;
         left: 51%;
     }
     .result {
@@ -113,7 +114,6 @@
         height: 400px;
         font-size: 27px;
         color: #222;
-        font-weight: bold;
     }
     .waist_img {
         width: 500px;
@@ -144,25 +144,23 @@
     .radius-x {
         position: absolute;
         top: 74%;
-        font-weight: bold;
     }
     #radius-x-js,
     #radius-y-js {
         margin-left: 10px;
-        font-weight: bold;
         font-size: 30px;
     }
     .radius-y {
         position: absolute;
         top: 85%;
+    }
+    .calculation {
+        position: absolute;
+        top: 100%;
         font-weight: bold;
     }
     .calc_img {
-        position: absolute;
-        width: 420px;
-        height: auto;
-        top: 90%;
-        left: 5%;
+        transform: translateY(-25px);
     }
     .accuracy {
         margin: 20px;
@@ -202,22 +200,15 @@
             <p class="b-len">b = <span id="b-len-js">--</span></p> 
             <p class="c-len">c = <span id="c-len-js">--</span></p> 
             <p class="d-len">d = <span id="d-len-js">--</span></p> 
-            <p class="radius-x">長半径 = 更衣室の幅 - ( a + c ) / 2 = <span id="radius-x-js">--</span></p>
-            <p class="radius-y">短半径 = 更衣室の幅 - ( b + d ) / 2 = <span id="radius-y-js">--</span></p> 
-            <!-- <img class="calc_img" src="https://raw.githubusercontent.com/TUT-IoT-Dojo-2022/iot-dojo-a/main/templates/calculation.png" alt=""> -->
+            <p class="radius-x">・長半径 = 更衣室の幅 - ( a + c ) / 2 = <span id="radius-x-js">--</span></p>
+            <p class="radius-y">・短半径 = 更衣室の幅 - ( b + d ) / 2 = <span id="radius-y-js">--</span></p> 
+            <div class="calculation">
+                <p>○公式</p>
+                <img class="calc_img" src="https://raw.githubusercontent.com/TUT-IoT-Dojo-2022/iot-dojo-a/main/templates/calculation.png" alt="">
+            </div>
         </div>
     </div>
 
-    <div class="accuracy">
-        <h3>〇計測の精度 (計測値 - 実測値)</h3>
-        <p>
-            身長: <span class="result_accu" id="height-accuracy">--</span>&emsp;    
-            肩幅: <span class="result_accu" id="kata-accuracy">--</span>&emsp;
-            ウエスト: <span class="result_accu" id="waist-accuracy">--</span>&emsp;   
-            股下: <span class="result_accu" id="mata-accuracy">--</span>    
-        </p>
-    </div>
-    
     <script>
         //Flaskからデータを取得 
         let list_data = {{ data | tojson }};;
