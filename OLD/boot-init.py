@@ -10,9 +10,4 @@ print(wifi.isconnected())
 webrepl.start(password="1234")
 wifi.ifconfig()
 
-
-wifi=network.WLAN(network.STA_IF)
-wifi.connect("CDSL-A910-11n", "11n-j9$4zt3kch")
-webrepl.start(password="1234")
-
 wifi.disconnect()
