@@ -63,7 +63,9 @@ def web_view():
       waist_d = int(f.read())
   except:
     waist_a = waist_b = waist_c = waist_d = " -- "
-  return render_template("index.html", data=[height,shoulder,waist,legs,(BOX_HEIGHT-height),raw_kata_a,raw_kata_b,str(int(legs)-INSEAM_FIX),waist_a,waist_b,waist_c,waist_d,int(CLOTHES_FIX)])
+  data=[height,shoulder,waist,legs,(BOX_HEIGHT-height),raw_kata_a,raw_kata_b,str(int(legs)-INSEAM_FIX),waist_a,waist_b,waist_c,waist_d,int(CLOTHES_FIX)]
+  print(data)
+  return render_template("index.html", data=data)
 
 # 以下、服のSIZE及びFUNC_NUMの受取
 @app.route('/home')

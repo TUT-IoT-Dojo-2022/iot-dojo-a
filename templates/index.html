@@ -244,13 +244,13 @@
         // 精度データDOM
         const accuracies = [ $height_accu, $kata_accu, $waist_accu, $mata_accu ];
 
-        // 計測の精度
-        const accu_data = [
-            list_data[0] - HEIGHT, 
-            list_data[1] - KATA,
-            list_data[2] - WAIST,
-            list_data[3] - MATA
-        ];
+        // // 計測の精度
+        // const accu_data = [
+        //     list_data[0] - HEIGHT, 
+        //     list_data[1] - KATA,
+        //     list_data[2] - WAIST,
+        //     list_data[3] - MATA
+        // ];
 
         const huku = list_data[12];
         console.log(huku)
@@ -263,10 +263,10 @@
         $radius_x.textContent = Math.round((109 - Number(list_data[8]) - Number(list_data[10])) / 2) + "cm";
         $radius_y.textContent = Math.round((109 - Number(list_data[9]) - Number(list_data[11])) / 2) + "cm";
 
-        accuracies.forEach( ( el, idx ) => {
-            el.textContent = accu_data[idx] + "cm";
-            console.log(el, idx);
-        })
+        // accuracies.forEach( ( el, idx ) => {
+        //     el.textContent = accu_data[idx] + "cm";
+        //     console.log(el, idx);
+        // })
 
     </script>
 
